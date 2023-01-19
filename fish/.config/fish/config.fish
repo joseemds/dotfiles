@@ -1,5 +1,7 @@
 if not status is-login
-	exec tmux
+	if not set -q TMUX
+    tmux has-session -t base; and tmux attach-session -t base; or tmux new-session -s base; and kill %self
+	end
 end
 
 if status is-interactive
