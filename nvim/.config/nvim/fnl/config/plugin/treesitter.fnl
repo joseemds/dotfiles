@@ -4,6 +4,11 @@
 
 (treesitter.setup {:highlight {:enable true}
                    :indent {:enable true}
+                   :incremental_selection {:enable true
+                                           :keymaps {:init_selection :<c-space>
+                                                     :node_incremental :<c-space>
+                                                     :scope_incremental :<c-s>
+                                                     :node_decremental :<c-backspace>}}
                    :textobjects {:select {:enable true
                                           :lookahead true
                                           :keymaps {:af "@function.outer"
@@ -12,5 +17,3 @@
                                         :swap_next {:<leader>a "@parameter.inner"}
                                         :swap_previous {:<leader>A "@parameter.inner"}}}})
 
-
-(set parsers.filetype_to_parsername.reason :ocaml)

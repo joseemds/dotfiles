@@ -54,6 +54,7 @@
   :phaazon/hop.nvim { :mod :hop }
   :machakann/vim-sandwich {}
   :nvim-treesitter/nvim-treesitter-textobjects {}
+  :nvim-treesitter/nvim-treesitter-context { :mod :context}
   :mhartington/formatter.nvim { :mod :formatter}
   :terrortylor/nvim-comment { :mod :comment }
   :sindrets/diffview.nvim { :mod :diffview }
@@ -80,4 +81,5 @@
   :tpope/vim-surround {}
   :junegunn/goyo.vim {}
   :folke/zen-mode.nvim { :mod :zen}
+  :nvim-tree/nvim-web-devicons {}
   )

@@ -5,7 +5,7 @@
              str aniseed.string}})
 
 ;generic mapping leaders configuration
-(nvim.set_keymap :n :<space> :<nop> {:noremap true})
+
 (set nvim.g.mapleader " ")
 (set nvim.g.maplocalleader ",")
 ; remove ~ on empty lines
@@ -33,4 +33,4 @@
 (require :config.plugin.treesitter)
 (require :config.mappings)
 (set nvim.g.tokyonight_italic_keywords false)
-(nvim.ex.colorscheme :everforest) 
+(nvim.ex.colorscheme :everforest)
