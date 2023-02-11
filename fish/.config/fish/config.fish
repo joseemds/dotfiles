@@ -17,3 +17,8 @@ set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; se
 set -gx PNPM_HOME "/home/josee/.local/share/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end
+
+# opam configuration
+source /home/josee/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+
+set -gx EDITOR "nvim"
