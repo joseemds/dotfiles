@@ -6,7 +6,3 @@ local silent_opts = {noremap = true, silent = true}
 require("telescope").setup{}
 
 map('n', '<C-p>',':Telescope find_files<CR>', silent_opts)
-
-
-
-

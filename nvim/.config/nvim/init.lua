@@ -69,7 +69,4 @@ require("lazy").setup({
 		}
 })
 
-
 require "settings"
-require "plugins"
-require "lsp"
