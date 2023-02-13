@@ -76,7 +76,7 @@ masonlsp.setup_handlers {
 }
 
 
-lsp.ocamllsp.setup { on_attach = on_attach, capabilities = capabilities }
+lsp.ocamllsp.setup { file_types = { "ocaml", "reason", "dune", "menhir", "ocamllex" }, on_attach = on_attach, capabilities = capabilities }
 lsp.gleam.setup { on_attach = on_attach, capabilities = capabilities }
 lsp.hls.setup { on_attach = on_attach, capabilities = capabilities }
 lsp.rust_analyzer.setup { on_attach = on_attach, capabilities = capabilities }
