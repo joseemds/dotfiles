@@ -57,6 +57,7 @@ local servers = {
 						telemetry = { enable = false },
 				},
 		},
+		astro = {}
 }
 
 
