@@ -1,6 +1,25 @@
 env:
   TERM: xterm-256color
 
+font:
+  normal:
+    family: Iosevka
+    style: Regular
+
+  bold:
+    family: Iosevka
+    style: Bold
+
+  italic:
+    family: Iosevka
+    style: Italic
+
+  bold_italic:
+    family: Iosevka
+    style: Bold Italic
+
+  size: 14
+
 colors:
   # Default colors
   primary:
