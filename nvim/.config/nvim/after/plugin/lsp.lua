@@ -7,6 +7,20 @@ if not (ok_lsp and ok_cmp and ok_mason) then
 	return
 end
 
+
+local format_range = function()
+	local start = vim.fn.getpos("v")
+	local end_ = vim.fn.getpos(".")
+	local start_row, start_col = start[2], start[3]
+	local end_row, end_col = end_[2], end_[3]
+	vim.lsp.buf.format({
+		range = {
+			['start'] = {start_row, start_col},
+			['end'] = {end_row, end_col}
+		}
+	})
+end
+
 local on_attach = function(_, bufnr)
 	local nmap = function(keys, func, desc)
 		if desc then
@@ -15,6 +29,15 @@ local on_attach = function(_, bufnr)
 
 		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
 	end
+
+	local vmap = function(keys, func, desc)
+		if desc then
+			desc = 'LSP: ' .. desc
+		end
+
+		vim.keymap.set('v', keys, func, { buffer = bufnr, desc = desc })
+	end
+
 
 	nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 	nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
@@ -37,6 +60,7 @@ local on_attach = function(_, bufnr)
 	nmap('<leader>wl', function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, '[W]orkspace [L]ist Folders')
+	vmap('<leader>lf', format_range, '[L]SP [F]ormat')
 
 	-- Create a command `:Format` local to the LSP buffer
 	vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
