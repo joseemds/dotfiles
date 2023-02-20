@@ -1,0 +1,9 @@
+[user]
+	email = josee.edumont@gmail.com
+	name = Jose Eduardo Monteiro
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[core]
+	excludesFile = /home/josee/.gitignore
