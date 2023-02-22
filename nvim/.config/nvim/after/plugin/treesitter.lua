@@ -1,8 +1,16 @@
 require('nvim-treesitter.configs').setup {
-		ensure_installed = { 'c', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'ocaml', 'ocamllex', 'ocaml_interface', 'menhir', 'nix', 'haskell', 'elm', 'elixir', 'css', 'html', 'javascript', 'typescript', 'bash', 'make', 'json', 'gleam', 'gitcommit' },
-		highlight = { enable = true },
+		ensure_installed = { 'c', 'lua', 'python', 'rust', 'typescript', 'tsx', 'help', 'vim', 'ocaml', 'ocamllex', 'ocaml_interface', 'menhir', 'nix', 'haskell', 'elm', 'elixir', 'css', 'html', 'javascript', 'typescript', 'bash', 'make', 'json', 'gleam', 'gitcommit' },
+		highlight = { enable = true,
+				disable = function(_lang, buf)
+					local max_filesize = 100 * 1024 -- 100 KB
+					local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+					if ok and stats and stats.size > max_filesize then
+						return true
+					end
+				end,
+		},
 		indent = { enable = true, disable = { 'python' } },
-		autotag = { enable = true},
+		autotag = { enable = true },
 		incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -57,4 +65,3 @@ require('nvim-treesitter.configs').setup {
 				},
 		},
 }
-
