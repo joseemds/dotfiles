@@ -81,7 +81,17 @@ local servers = {
 						telemetry = { enable = false },
 				},
 		},
-		astro = {}
+		astro = {},
+		tailwindcss = {
+			tailwindCSS = {
+			experimental = {
+        classRegex = {
+          { "cva\\(([^)]*)\\)",
+           "[\"'`]([^\"'`]*).*?[\"'`]" },
+        },
+      },
+		}
+	},
 }
 
 
