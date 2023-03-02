@@ -22,5 +22,5 @@ telescope.setup{
 }
 
 map('n', '<C-p>',':Telescope find_files<CR>', silent_opts)
-map('n', '<leader>fg',':Telescope live_grep<CR>', silent_opts)
+map('n', '<leader>lg',':Telescope live_grep<CR>', silent_opts)
 map('n', '<leader>bb',':Telescope buffers<CR>', silent_opts)
