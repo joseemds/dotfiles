@@ -22,4 +22,8 @@ set -gx PATH "$PNPM_HOME" $PATH
 source /home/josee/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 direnv hook fish | source
 
+
+
+source $HOME/.config/fish/aliases.fish
+
 set -gx EDITOR "nvim"
