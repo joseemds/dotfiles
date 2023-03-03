@@ -130,6 +130,7 @@ alias ggpush='git push origin (current_branch)'
 #compdef ggpush=git
 alias ggpnp='git pull origin (current_branch); and git push origin (current_branch)'
 #compdef ggpnp=git
+alias gpsup='git push --set-upstream origin (current_branch)'
 
 # Pretty log messages
 function _git_log_prettily
