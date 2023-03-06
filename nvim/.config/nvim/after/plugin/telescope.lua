@@ -7,6 +7,8 @@ end
 
 local silent_opts = {noremap = true, silent = true}
 
+telescope.load_extension("undo")
+
 telescope.setup{
 	defaults = {
 		file_ignore_patterns = {"node_modules", "esy.lock"},

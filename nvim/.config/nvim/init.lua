@@ -18,7 +18,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-		{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" } },
+		{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim", "debugloop/telescope-undo.nvim"} },
 		{ "nvim-treesitter/nvim-treesitter", build = function()
 			pcall(require('nvim-treesitter.install').update { with_sync = true })
 		end
