@@ -16,9 +16,11 @@
 	:monitor 0
 	:geometry (geometry
 		:width "25%"
-		:height "150px"
+		:height "50px"
 		:anchor "center")
 	(search_bar))
 
 (defwidget search_bar []
-	(box (input :onaccept "~/.config/eww/scripts/search.sh {}")))
+	(box :space-evenly false :class "search_bar"
+		(label :class "Sound" :text "🔍")
+		(input :hexpand true :onaccept "~/.config/eww/scripts/search.sh {}")))
