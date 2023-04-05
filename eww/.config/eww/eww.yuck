@@ -21,6 +21,7 @@
 	(search_bar))
 
 (defwidget search_bar []
-	(box :space-evenly false :class "search_bar"
-		(label :class "Sound" :text "🔍")
-		(input :hexpand true :onaccept "~/.config/eww/scripts/search.sh {}")))
+	(eventbox :onhoverlost "eww close search" :timeout "5s"
+		(box :space-evenly false :class "search_bar"
+			(label :class "Sound" :text "🔍")
+			(input :hexpand true :onaccept "~/.config/eww/scripts/search.sh {}"))))
