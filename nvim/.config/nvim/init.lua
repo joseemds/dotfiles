@@ -55,6 +55,7 @@ require("lazy").setup({
 		"shatur/neovim-ayu",
 		"sainnhe/everforest",
 		"rebelot/kanagawa.nvim",
+		{"catppuccin/nvim", name = "catppuccin"},
 
 		-- cmp
 		{ 'hrsh7th/nvim-cmp',
