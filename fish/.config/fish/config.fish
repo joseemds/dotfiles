@@ -27,3 +27,5 @@ direnv hook fish | source
 source $HOME/.config/fish/aliases.fish
 
 set -gx EDITOR "nvim"
+
+starship init fish | source
