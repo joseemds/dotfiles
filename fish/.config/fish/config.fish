@@ -29,3 +29,4 @@ source $HOME/.config/fish/aliases.fish
 set -gx EDITOR "nvim"
 
 starship init fish | source
+stg completion fish | source
