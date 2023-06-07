@@ -1,5 +1,5 @@
 require('nvim-treesitter.configs').setup {
-		ensure_installed = { 'c', 'lua', 'python', 'rust', 'typescript', 'tsx', 'help', 'vim', 'ocaml', 'ocamllex', 'ocaml_interface', 'menhir', 'nix', 'haskell', 'elm', 'elixir', 'css', 'html', 'javascript', 'typescript', 'bash', 'make', 'json', 'gleam', 'gitcommit' },
+		ensure_installed = { 'c', 'lua', 'python', 'rust', 'typescript', 'tsx', 'help', 'vim', 'ocaml', 'ocamllex', 'ocaml_interface', 'menhir', 'nix', 'haskell', 'elm', 'elixir', 'css', 'html', 'javascript',' bash', 'make', 'json', 'gleam', 'gitcommit', 'gitignore'},
 		highlight = { enable = true,
 				disable = function(_lang, buf)
 					local max_filesize = 100 * 1024 -- 100 KB

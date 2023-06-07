@@ -55,7 +55,7 @@ require("lazy").setup({
 		"shatur/neovim-ayu",
 		"sainnhe/everforest",
 		"rebelot/kanagawa.nvim",
-		{"catppuccin/nvim", name = "catppuccin"},
+		{"catppuccin/nvim", name = "catppuccin", lazy= false},
 
 		-- cmp
 		{ 'hrsh7th/nvim-cmp',
@@ -70,7 +70,8 @@ require("lazy").setup({
 			},
 		},
 		"danielo515/nvim-treesitter-reason",
-		{ dir = "$HOME/dev/lua/todo.nvim" }
+		{ dir = "$HOME/dev/lua/todo.nvim" },
+		{"christoomey/vim-tmux-navigator", lazy = false}
 })
 
 require "settings"

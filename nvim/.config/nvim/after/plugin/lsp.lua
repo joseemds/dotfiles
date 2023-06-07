@@ -2,11 +2,9 @@ local ok_lsp, lsp = pcall(require, "lspconfig")
 local ok_cmp, cmplsp = pcall(require, "cmp_nvim_lsp")
 local ok_mason, masonlsp = pcall(require, "mason-lspconfig")
 
-
-if not (ok_lsp and ok_cmp and ok_mason) then
+if not (ok_lsp or ok_cmp or ok_mason) then
 	return
 end
-
 
 local format_range = function()
 	local start = vim.fn.getpos("v")
@@ -14,10 +12,10 @@ local format_range = function()
 	local start_row, start_col = start[2], start[3]
 	local end_row, end_col = end_[2], end_[3]
 	vim.lsp.buf.format({
-		range = {
-			['start'] = {start_row, start_col},
-			['end'] = {end_row, end_col}
-		}
+			range = {
+					['start'] = { start_row, start_col },
+					['end'] = { end_row, end_col }
+			}
 	})
 end
 
@@ -27,8 +25,7 @@ local on_attach = function(_, bufnr)
 			desc = 'LSP: ' .. desc
 		end
 
-		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-	end
+		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc }) end
 
 	local vmap = function(keys, func, desc)
 		if desc then
@@ -75,7 +72,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local servers = {
 		tsserver = {},
 		clangd = {},
-		sumneko_lua = {
+		lua_ls = {
 				Lua = {
 						workspace = { checkThirdParty = false },
 						telemetry = { enable = false },
@@ -83,15 +80,15 @@ local servers = {
 		},
 		astro = {},
 		tailwindcss = {
-			tailwindCSS = {
-			experimental = {
-        classRegex = {
-          { "cva\\(([^)]*)\\)",
-           "[\"'`]([^\"'`]*).*?[\"'`]" },
-        },
-      },
-		}
-	},
+				tailwindCSS = {
+						experimental = {
+								classRegex = {
+										{ "cva\\(([^)]*)\\)",
+												"[\"'`]([^\"'`]*).*?[\"'`]" },
+								},
+						},
+				}
+		},
 }
 
 
@@ -109,7 +106,6 @@ masonlsp.setup_handlers {
 			}
 		end,
 }
-
 
 lsp.ocamllsp.setup { file_types = { "ocaml", "reason", "dune", "menhir", "ocamllex" }, on_attach = on_attach, capabilities = capabilities }
 lsp.gleam.setup { on_attach = on_attach, capabilities = capabilities }
