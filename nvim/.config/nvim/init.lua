@@ -39,7 +39,11 @@ require("lazy").setup({
 		"ms-jpq/coq_nvim",
 		{ "numToStr/FTerm.nvim",           config = true },
 		{ "numToStr/Comment.nvim",         config = true },
-		"tamago324/lir.nvim",
+		{"tamago324/lir.nvim",
+			dependencies = {
+			"tamago324/lir-git-status.nvim"
+			}
+		},
 		"tpope/vim-surround",
 		"nvim-tree/nvim-web-devicons",
 		"lukas-reineke/indent-blankline.nvim",

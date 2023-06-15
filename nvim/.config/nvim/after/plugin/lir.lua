@@ -1,6 +1,4 @@
 local ok, _ = pcall(require, "lir")
-
-
 if not ok then
 	return
 end
@@ -9,12 +7,15 @@ end
 local actions = require 'lir.actions'
 local mark_actions = require 'lir.mark.actions'
 local clipboard_actions = require 'lir.clipboard.actions'
+local git_status = require 'lir.git_status'
+
+git_status.setup {}
 
 require 'lir'.setup {
 		show_hidden_files = false,
 		ignore = {}, -- { ".DS_Store", "node_modules" } etc.
 		devicons = {
-				enable = false,
+				enable = true,
 				highlight_dirname = false
 		},
 		mappings = {
@@ -48,22 +49,6 @@ require 'lir'.setup {
 						enable = false,
 						highlight_dirname = false
 				},
-
-				-- -- You can define a function that returns a table to be passed as the third
-				-- -- argument of nvim_open_win().
-				-- win_opts = function()
-				--   local width = math.floor(vim.o.columns * 0.8)
-				--   local height = math.floor(vim.o.lines * 0.8)
-				--   return {
-				--     border = {
-				--       "+", "─", "+", "│", "+", "─", "+", "│",
-				--     },
-				--     width = width,
-				--     height = height,
-				--     row = 1,
-				--     col = math.floor((vim.o.columns - width) / 2),
-				--   }
-				-- end,
 		},
 		hide_cursor = true
 }
@@ -94,4 +79,4 @@ require 'nvim-web-devicons'.set_icon({
 		}
 })
 
-vim.api.nvim_set_keymap("n", "-", ":edit %:h<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "-", "<Cmd> :lua require 'lir.float'.toggle()<CR>", { noremap = true })
