@@ -72,7 +72,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local servers = {
 		tsserver = {},
 		clangd = {},
-		lua_ls = {
+		sumneko_lua = {
 				Lua = {
 						workspace = { checkThirdParty = false },
 						telemetry = { enable = false },

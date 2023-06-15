@@ -8,6 +8,12 @@ if status is-interactive
 end
 
 
+switch $(uname)
+  case Darwin
+    fish_add_path -a "/opt/homebrew/bin"
+end
+
+
 fish_add_path -a $HOME/.local/bin
 fish_add_path -a $HOME/.cargo/bin
 
