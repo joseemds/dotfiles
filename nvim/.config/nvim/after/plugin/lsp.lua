@@ -12,10 +12,10 @@ local format_range = function()
 	local start_row, start_col = start[2], start[3]
 	local end_row, end_col = end_[2], end_[3]
 	vim.lsp.buf.format({
-			range = {
-					['start'] = { start_row, start_col },
-					['end'] = { end_row, end_col }
-			}
+		range = {
+			['start'] = { start_row, start_col },
+			['end'] = { end_row, end_col }
+		}
 	})
 end
 
@@ -25,7 +25,8 @@ local on_attach = function(_, bufnr)
 			desc = 'LSP: ' .. desc
 		end
 
-		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc }) end
+		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+	end
 
 	local vmap = function(keys, func, desc)
 		if desc then
@@ -70,44 +71,49 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 
 local servers = {
-		tsserver = {},
-		clangd = {},
-		sumneko_lua = {
-				Lua = {
-						workspace = { checkThirdParty = false },
-						telemetry = { enable = false },
+	tsserver = {},
+	clangd = {},
+	lua_ls = {
+		Lua = {
+			workspace = { checkThirdParty = false },
+			telemetry = { enable = false },
+		},
+	},
+	astro = {},
+	tailwindcss = {
+		tailwindCSS = {
+			experimental = {
+				classRegex = {
+					{ "cva\\(([^)]*)\\)",
+						"[\"'`]([^\"'`]*).*?[\"'`]" },
 				},
-		},
-		astro = {},
-		tailwindcss = {
-				tailwindCSS = {
-						experimental = {
-								classRegex = {
-										{ "cva\\(([^)]*)\\)",
-												"[\"'`]([^\"'`]*).*?[\"'`]" },
-								},
-						},
-				}
-		},
+			},
+		}
+	},
 }
 
 
 masonlsp.setup {
-		ensure_installed = vim.tbl_keys(servers),
+	ensure_installed = vim.tbl_keys(servers),
 }
 
 
 masonlsp.setup_handlers {
-		function(server_name)
-			require('lspconfig')[server_name].setup {
-					capabilities = capabilities,
-					on_attach = on_attach,
-					settings = servers[server_name],
-			}
-		end,
+	function(server_name)
+		require('lspconfig')[server_name].setup {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = servers[server_name],
+		}
+	end,
 }
 
-lsp.ocamllsp.setup { file_types = { "ocaml", "reason", "dune", "menhir", "ocamllex" }, on_attach = on_attach, capabilities = capabilities }
+lsp.ocamllsp.setup {
+	file_types = { "ocaml", "reason", "dune", "menhir", "ocamllex" },
+	on_attach = on_attach,
+	capabilities = capabilities,
+	settings = { extendedHover = { enable = true }, codelens = { enable = true }, handleTypedHoles = true }
+}
 lsp.gleam.setup { on_attach = on_attach, capabilities = capabilities }
 lsp.hls.setup { on_attach = on_attach, capabilities = capabilities }
 lsp.rust_analyzer.setup { on_attach = on_attach, capabilities = capabilities }
