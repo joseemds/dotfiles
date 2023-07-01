@@ -75,6 +75,7 @@ local servers = {
 	clangd = {},
 	lua_ls = {
 		Lua = {
+			format = { enable = true },
 			workspace = { checkThirdParty = false },
 			telemetry = { enable = false },
 		},
