@@ -4,7 +4,6 @@ if not ok then
 	return
 end
 
-
 fterm.setup({
     border = 'double',
     dimensions  = {
@@ -12,7 +11,6 @@ fterm.setup({
         width = 0.9,
     },
 })
-
 
 local lazygit = fterm:new({
 	cmd = "lazygit"
