@@ -3,7 +3,7 @@ env:
 
 font:
   normal:
-    family: Iosevka
+    family: Iosevka Term Slab
     style: Regular
 
   bold:
