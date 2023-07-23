@@ -3,19 +3,19 @@ env:
 
 font:
   normal:
-    family: Iosevka Term Slab
+    family: Victor Mono 
     style: Regular
 
   bold:
-    family: Iosevka
+    family: Victor Mono
     style: Bold
 
   italic:
-    family: Iosevka
+    family: Victor Mono
     style: Italic
 
   bold_italic:
-    family: Iosevka
+    family: Victor Mono
     style: Bold Italic
 
   size: 14
