@@ -1,7 +1,6 @@
 local ok, cmp = pcall(require, "cmp")
 local luasnip = require("luasnip")
 
-
 if not ok then
 	return
 end

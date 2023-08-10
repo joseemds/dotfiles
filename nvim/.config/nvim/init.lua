@@ -82,15 +82,20 @@ require("lazy").setup({
 			'hrsh7th/cmp-path',
 			'hrsh7th/cmp-cmdline',
 			"hrsh7th/cmp-nvim-lsp",
-			"L3MON4D3/LuaSnip",
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets"
 		},
 	},
+	{
+		"L3MON4D3/LuaSnip",
+		version = "2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+		-- install jsregexp (optional!).
+		build = "make install_jsregexp"
+	},
 	"danielo515/nvim-treesitter-reason",
 	{ "christoomey/vim-tmux-navigator", lazy = false },
-	{ "m4xshen/hardtime.nvim",   event = "VeryLazy", opts = {} },
-	{ "lewis6991/gitsigns.nvim", config = true },
+	{ "m4xshen/hardtime.nvim",          event = "VeryLazy",  opts = {} },
+	{ "lewis6991/gitsigns.nvim",        config = true },
 	-- lazy.nvim
 	{
 		"folke/noice.nvim",
@@ -107,7 +112,23 @@ require("lazy").setup({
 	{
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-	}
+	},
+	"folke/zen-mode.nvim",
+	"folke/twilight.nvim",
+	"lervag/vimtex",
+	{
+		'Julian/lean.nvim',
+		event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
+
+		dependencies = {
+			'neovim/nvim-lspconfig',
+			'nvim-lua/plenary.nvim',
+			-- you also will likely want nvim-cmp or some completion engine
+		},
+	},
 })
+
+-- see details below for full configuration options
+
 
 require "settings"
