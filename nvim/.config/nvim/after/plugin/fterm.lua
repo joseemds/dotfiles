@@ -16,7 +16,6 @@ local lazygit = fterm:new({
 	cmd = "lazygit"
 })
 
--- Example keybindings
 vim.keymap.set('n', '<C-s>', '<CMD>lua require("FTerm").toggle()<CR>')
 vim.keymap.set('t', '<C-s>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 vim.keymap.set('n', '<leader>gg', function()

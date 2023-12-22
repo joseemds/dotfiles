@@ -23,6 +23,7 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim",
 			"debugloop/telescope-undo.nvim" }
 	},
+	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --c	nfig Release && cmake --install build --prefix build' },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = function()
@@ -44,9 +45,8 @@ require("lazy").setup({
 			-- Additional lua configuration, makes nvim stuff amazing
 			{ 'folke/neodev.nvim',       config = true } }
 	},
-	"ms-jpq/coq_nvim",
-	{ "numToStr/FTerm.nvim",   config = true },
-	{ "numToStr/Comment.nvim", config = true },
+	{ "numToStr/FTerm.nvim",                      config = true },
+	{ "numToStr/Comment.nvim",                    config = true },
 	{
 		"tamago324/lir.nvim",
 		dependencies = {
@@ -94,7 +94,7 @@ require("lazy").setup({
 	},
 	"danielo515/nvim-treesitter-reason",
 	{ "christoomey/vim-tmux-navigator", lazy = false },
-	{ "m4xshen/hardtime.nvim",          event = "VeryLazy",  opts = {} },
+	-- { "m4xshen/hardtime.nvim",          event = "VeryLazy",  opts = {} },
 	{ "lewis6991/gitsigns.nvim",        config = true },
 	-- lazy.nvim
 	{
@@ -126,9 +126,32 @@ require("lazy").setup({
 			-- you also will likely want nvim-cmp or some completion engine
 		},
 	},
+	"wakatime/vim-wakatime",
+	{
+		'Julian/lean.nvim',
+		event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
+
+		dependencies = {
+			'neovim/nvim-lspconfig',
+			'nvim-lua/plenary.nvim',
+			-- you also will likely want nvim-cmp or some completion engine
+		},
+
+		-- see details below for full configuration options
+		opts = {
+			lsp = {
+				on_attach = on_attach,
+			},
+			mappings = true,
+		}
+	},
+	{
+		'stevearc/conform.nvim',
+		opts = {},
+	},
+	"simrat39/rust-tools.nvim",
+	"mfussenegger/nvim-dap"
+
 })
-
--- see details below for full configuration options
-
 
 require "settings"

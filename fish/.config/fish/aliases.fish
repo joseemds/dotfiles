@@ -158,11 +158,12 @@ alias gwip='git add -A; git ls-files --deleted -z | xargs -0 git rm; git commit 
 alias gunwip='git log -n 1 | grep -q -c wip; and git reset HEAD~1'
 
 
-alias ls='exa' # just replace ls by exa and allow all other exa arguments
+alias ls='eza' # just replace ls by exa and allow all other exa arguments
 alias l='ls -lbF' #   list, size, type
 alias ll='ls -la' # long, all
 alias llm='ll --sort=modified' # list, long, sort by modification date
 alias la='ls -lbhHigUmuSa' # all list
 alias lx='ls -lbhHigUmuSa@' # all list and extended
-alias tree='exa --tree' # tree view
-alias lS='exa -1' # one column by just names
+alias tree='eza --tree' # tree view
+alias lS='eza -1' # one column by just names
+alias nf='nvim $(fzf)'
