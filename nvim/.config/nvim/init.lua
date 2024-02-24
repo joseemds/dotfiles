@@ -5,8 +5,7 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
+	vim.fn.system({ "git",
 		"clone",
 		"--filter=blob:none",
 		"https://github.com/folke/lazy.nvim.git",
@@ -23,7 +22,9 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim",
 			"debugloop/telescope-undo.nvim" }
 	},
-	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --c	nfig Release && cmake --install build --prefix build' },
+	{ 'nvim-telescope/telescope-fzf-native.nvim',
+		                                              build =
+		'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --c	nfig Release && cmake --install build --prefix build' },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = function()
@@ -55,7 +56,12 @@ require("lazy").setup({
 	},
 	"tpope/vim-surround",
 	"nvim-tree/nvim-web-devicons",
-	"lukas-reineke/indent-blankline.nvim",
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		config = function()
+			require("ibl").setup()
+		end
+	},
 	{
 		"ggandor/leap.nvim",
 		config = function()
@@ -128,12 +134,12 @@ require("lazy").setup({
 	},
 	"wakatime/vim-wakatime",
 	{
-		'Julian/lean.nvim',
+		"Julian/lean.nvim",
 		event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
 
 		dependencies = {
-			'neovim/nvim-lspconfig',
-			'nvim-lua/plenary.nvim',
+			"neovim/nvim-lspconfig",
+			"nvim-lua/plenary.nvim",
 			-- you also will likely want nvim-cmp or some completion engine
 		},
 
@@ -146,11 +152,15 @@ require("lazy").setup({
 		}
 	},
 	{
-		'stevearc/conform.nvim',
+		"stevearc/conform.nvim",
 		opts = {},
 	},
 	"simrat39/rust-tools.nvim",
-	"mfussenegger/nvim-dap"
+	"mfussenegger/nvim-dap",
+	"whonore/coqtail",
+	"tpope/vim-repeat",
+	{ dir = "~/dev/lua/ocaml.nvim" }
+	-- {"tjdevries/ocaml.nvim", dev=true}
 
 })
 

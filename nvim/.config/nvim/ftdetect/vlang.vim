@@ -1,1 +1,1 @@
-autocmd BufNew,BufNewFile,BufRead *.v :set filetype=vlang
+" autocmd BufNew,BufNewFile,BufRead *.v :set filetype=vlang
