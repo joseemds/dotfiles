@@ -101,7 +101,7 @@ require("lazy").setup({
 	"danielo515/nvim-treesitter-reason",
 	{ "christoomey/vim-tmux-navigator", lazy = false },
 	-- { "m4xshen/hardtime.nvim",          event = "VeryLazy",  opts = {} },
-	{ "lewis6991/gitsigns.nvim",        config = true },
+	"lewis6991/gitsigns.nvim",
 	-- lazy.nvim
 	{
 		"folke/noice.nvim",
@@ -122,6 +122,7 @@ require("lazy").setup({
 	"folke/zen-mode.nvim",
 	"folke/twilight.nvim",
 	"lervag/vimtex",
+	"micangl/cmp-vimtex",
 	{
 		'Julian/lean.nvim',
 		event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
@@ -159,6 +160,9 @@ require("lazy").setup({
 	"mfussenegger/nvim-dap",
 	"whonore/coqtail",
 	"tpope/vim-repeat",
+	"tpope/vim-fugitive",
+	"jeetsukumaran/vim-buffergator",
+	"nvim-lualine/lualine.nvim",
 	{ dir = "~/dev/lua/ocaml.nvim" }
 	-- {"tjdevries/ocaml.nvim", dev=true}
 
