@@ -22,9 +22,11 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim",
 			"debugloop/telescope-undo.nvim" }
 	},
-	{ 'nvim-telescope/telescope-fzf-native.nvim',
-		                                              build =
-		'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --c	nfig Release && cmake --install build --prefix build' },
+	{
+		'nvim-telescope/telescope-fzf-native.nvim',
+		build =
+		'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --c	nfig Release && cmake --install build --prefix build'
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = function()
@@ -46,8 +48,8 @@ require("lazy").setup({
 			-- Additional lua configuration, makes nvim stuff amazing
 			{ 'folke/neodev.nvim',       config = true } }
 	},
-	{ "numToStr/FTerm.nvim",                      config = true },
-	{ "numToStr/Comment.nvim",                    config = true },
+	{ "numToStr/FTerm.nvim",   config = true },
+	{ "numToStr/Comment.nvim", config = true },
 	{
 		"tamago324/lir.nvim",
 		dependencies = {
@@ -104,18 +106,6 @@ require("lazy").setup({
 	"lewis6991/gitsigns.nvim",
 	-- lazy.nvim
 	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
-			"rcarriga/nvim-notify",
-		}
-	},
-	{
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
@@ -123,16 +113,6 @@ require("lazy").setup({
 	"folke/twilight.nvim",
 	"lervag/vimtex",
 	"micangl/cmp-vimtex",
-	{
-		'Julian/lean.nvim',
-		event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
-
-		dependencies = {
-			'neovim/nvim-lspconfig',
-			'nvim-lua/plenary.nvim',
-			-- you also will likely want nvim-cmp or some completion engine
-		},
-	},
 	"wakatime/vim-wakatime",
 	{
 		"Julian/lean.nvim",
@@ -141,14 +121,9 @@ require("lazy").setup({
 		dependencies = {
 			"neovim/nvim-lspconfig",
 			"nvim-lua/plenary.nvim",
-			-- you also will likely want nvim-cmp or some completion engine
 		},
 
-		-- see details below for full configuration options
 		opts = {
-			lsp = {
-				on_attach = on_attach,
-			},
 			mappings = true,
 		}
 	},
@@ -164,7 +139,6 @@ require("lazy").setup({
 	"jeetsukumaran/vim-buffergator",
 	"nvim-lualine/lualine.nvim",
 	{ dir = "~/dev/lua/ocaml.nvim" }
-	-- {"tjdevries/ocaml.nvim", dev=true}
 
 })
 

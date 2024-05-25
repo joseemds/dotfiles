@@ -25,7 +25,7 @@ gitsigns.setup {
   current_line_blame_opts = {
     virt_text = true,
     virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
-    delay = 1000,
+    delay = 200,
     ignore_whitespace = false,
     virt_text_priority = 100,
   },
@@ -83,7 +83,7 @@ gitsigns.setup {
 		map('n', '<leader>gb', gitsigns.toggle_current_line_blame)
 		map('n', '<leader>gd', gitsigns.diffthis)
 		map('n', '<leader>gD', function() gitsigns.diffthis('~') end)
-		map('n', '<leader>gd', gitsigns.toggle_deleted)
+		map('n', '<leader>gc', gitsigns.toggle_deleted)
 
 		-- Text object
 		map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
