@@ -73,7 +73,7 @@ gitsigns.setup {
 		-- Actions
 		map('n', '<leader>gs', gitsigns.stage_hunk)
 		map('n', '<leader>gr', gitsigns.reset_hunk)
-		map('v', '<leader>gs', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+		map('v', '<leader>ga', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
 		map('v', '<leader>gr', function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
 		map('n', '<leader>gS', gitsigns.stage_buffer)
 		map('n', '<leader>gu', gitsigns.undo_stage_hunk)
