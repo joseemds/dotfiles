@@ -113,7 +113,8 @@ lsp.ocamllsp.setup {
 	file_types = { "ocaml", "reason", "dune", "menhir", "ocamllex" },
 	on_attach = on_attach,
 	capabilities = capabilities,
-	settings = { extendedHover = { enable = true }, codelens = { enable = true }, handleTypedHoles = true, handleInferIntf = true}
+	settings = { extendedHover = { enable = true }, codelens = { enable = true }, handleTypedHoles = true,
+		handleInferIntf = true }
 }
 lsp.gleam.setup { on_attach = on_attach, capabilities = capabilities }
 lsp.hls.setup { on_attach = on_attach, capabilities = capabilities }
