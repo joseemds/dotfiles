@@ -110,7 +110,7 @@
 			pkgs.tree 
 			pkgs.tokei 
 			pkgs.hyperfine 
-			pkgs.youtube-dl 
+			pkgs.yt-dlp
 			pkgs.bat 
 			pkgs.htop 
 			pkgs.btop 

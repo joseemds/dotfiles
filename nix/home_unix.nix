@@ -4,10 +4,15 @@
   home.username = "josee";
   home.homeDirectory = "/home/josee";
 
-  # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
   home.packages = with pkgs; [
+		coreutils
+		neovim
+		tree
+		tokei
+		hyperfine
+
 		fd
 		ripgrep
 		eza
@@ -105,7 +110,6 @@
 			 tree="eza --tree";
 			 lS="eza -1"; 
 			};
-
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
@@ -173,7 +177,5 @@
 		];
 	};
 
-	#
-	# programs.home-manager.enable = true;
-
+	programs.home-manager.enable = true;
 }

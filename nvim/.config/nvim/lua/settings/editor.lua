@@ -5,7 +5,6 @@ cmd("set rnu")
 cmd("set nu")
 cmd("set hidden")
 cmd("set noswapfile")
-cmd("set termguicolors")
 cmd("set matchpairs+=<:>")
 
 vim.o.fillchars = "eob: "
@@ -17,3 +16,4 @@ vim.o.smartcase = true
 vim.o.hlsearch = true
 vim.o.incsearch = true
 vim.o.clipboard = "unnamedplus"
+vim.o.termguicolors = true

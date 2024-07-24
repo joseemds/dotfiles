@@ -13,7 +13,7 @@ gitsigns.setup {
     untracked    = { text = '┆' },
   },
   signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
-  numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+  numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
   linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
   word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
   watch_gitdir = {
@@ -25,7 +25,7 @@ gitsigns.setup {
   current_line_blame_opts = {
     virt_text = true,
     virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
-    delay = 200,
+    delay = 300,
     ignore_whitespace = false,
     virt_text_priority = 100,
   },
@@ -33,7 +33,7 @@ gitsigns.setup {
   current_line_blame_formatter_opts = {
     relative_time = false,
   },
-  sign_priority = 6,
+  sign_priority = 5,
   update_debounce = 100,
   status_formatter = nil, -- Use default
   max_file_length = 40000, -- Disable if file is longer than this (in lines)
@@ -73,17 +73,17 @@ gitsigns.setup {
 		-- Actions
 		map('n', '<leader>gs', gitsigns.stage_hunk)
 		map('n', '<leader>gr', gitsigns.reset_hunk)
-		map('v', '<leader>ga', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+		map('v', '<leader>gs', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
 		map('v', '<leader>gr', function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
 		map('n', '<leader>gS', gitsigns.stage_buffer)
 		map('n', '<leader>gu', gitsigns.undo_stage_hunk)
 		map('n', '<leader>gR', gitsigns.reset_buffer)
 		map('n', '<leader>gp', gitsigns.preview_hunk)
-		map('n', '<leader>gb', function() gitsigns.blame_line{full=true} end)
+		map('n', '<leader>gB', function() gitsigns.blame_line{full=true} end)
 		map('n', '<leader>gb', gitsigns.toggle_current_line_blame)
-		map('n', '<leader>gd', gitsigns.diffthis)
+		map('n', '<leader>gt', gitsigns.diffthis)
 		map('n', '<leader>gD', function() gitsigns.diffthis('~') end)
-		map('n', '<leader>gc', gitsigns.toggle_deleted)
+		map('n', '<leader>gd', gitsigns.toggle_deleted)
 
 		-- Text object
 		map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')

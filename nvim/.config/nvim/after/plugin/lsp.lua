@@ -1,6 +1,7 @@
 local ok_lsp, lsp = pcall(require, "lspconfig")
 local ok_cmp, cmplsp = pcall(require, "cmp_nvim_lsp")
 local ok_mason, masonlsp = pcall(require, "mason-lspconfig")
+local ok_zero, lsp_zero = pcall(require, "lsp-zero")
 
 if not (ok_lsp or ok_cmp or ok_mason) then
 	return
@@ -96,25 +97,25 @@ local servers = {
 
 masonlsp.setup {
 	ensure_installed = vim.tbl_keys(servers),
+	handlers = {
+		function(server_name)
+			require('lspconfig')[server_name].setup({})
+		end,
+		jdtls = lsp_zero.noop,
+	}
 }
 
-
-masonlsp.setup_handlers {
-	function(server_name)
-		require('lspconfig')[server_name].setup {
-			capabilities = capabilities,
-			on_attach = on_attach,
-			settings = servers[server_name],
-		}
-	end,
-}
+lsp_zero.on_attach(function(client, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp_zero.default_keymaps({buffer = bufnr})
+end)
 
 lsp.ocamllsp.setup {
 	file_types = { "ocaml", "reason", "dune", "menhir", "ocamllex" },
 	on_attach = on_attach,
 	capabilities = capabilities,
-	settings = { extendedHover = { enable = true }, codelens = { enable = true }, handleTypedHoles = true,
-		handleInferIntf = true }
+	settings = { extendedHover = { enable = true }, codelens = { enable = true }, handleTypedHoles = true, handleInferIntf = true}
 }
 lsp.gleam.setup { on_attach = on_attach, capabilities = capabilities }
 lsp.hls.setup { on_attach = on_attach, capabilities = capabilities }

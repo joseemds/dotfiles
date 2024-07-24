@@ -11,7 +11,7 @@ telescope.load_extension("undo")
 
 telescope.setup {
 	defaults = {
-		file_ignore_patterns = { "node_modules", "esy.lock", ".git" },
+		file_ignore_patterns = { "node_modules", "esy.lock", ".git/" },
 		preview = {
 			filesize_hook = function(filepath, bufnr, opts)
 				local max_bytes = 10000
