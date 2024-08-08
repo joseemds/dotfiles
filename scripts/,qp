@@ -1,0 +1,4 @@
+# https://two-wrongs.com/q
+#!/bin/sh
+
+llm -s "Responda com o menor número de palavras possiveis. Utilize um estilo simples com respostas curtas" -m gpt-4o-mini "$*"
