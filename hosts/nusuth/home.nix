@@ -36,15 +36,7 @@
 		gopls
 		anki-bin
 		process-compose
-		# (llm.overrideAttrs(old: {
-		# 	version = "0.15";
-		# 	src = fetchFromGitHub {
-		# 		owner = "simonw";
-		# 		repo = "llm";
-		# 		rev = "0.15";
-		# 		sha256 =  "0ybd6wk9i2p44wx1d5801n6w3bgdxjqxrwsdw6n82fbyiylrpy9w";
-		# 	};
-		# }))
+		yt-dlp
   ];
 
 		home.shellAliases = {
@@ -132,6 +124,13 @@
 		extraConfig = {
 			init.defaultBranch = "main";
 			core.excludesFile = "~/.gitignore_global";
+			merge.conflictstyle = "zdiff3";
+			push.autoSetupRemote = true;
+			rerere.enable = true;
+			diff.algorithm = "histogram";
+			log.date = "iso";
+			rebase.updateRefs = "true";
+			merge.tool = "nvimdiff";
 		};
 	};
   home.sessionVariables = {
@@ -160,6 +159,19 @@
 			set -ag terminal-overrides ",xterm-256color:RGB"
 		'';
 	};
+
+	programs.ssh = {
+		enable = true;
+	};
+
+
+	services.ssh-agent = {
+		enable = true;
+		keys = [
+			"~/.ssh/id_ed25519"
+
+		];
+	}
 
 	programs.go = {
 		enable = true;
