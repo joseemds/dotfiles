@@ -1,0 +1,27 @@
+(defwindow bar
+           :monitor 0
+           :geometry (geometry :x "0%"
+                               :y "0"
+                               :width "100%"
+                               :height "30px"
+                               :anchor "top center")
+           :stacking "fg"
+           :reserve (struts :distance "35px" :side "top")
+  "example content")
+
+
+(defwindow search
+	:focusable true
+	:windowtype "dialog"
+	:monitor 0
+	:geometry (geometry
+		:width "25%"
+		:height "50px"
+		:anchor "center")
+	(search_bar))
+
+(defwidget search_bar []
+	(eventbox :onhoverlost "eww close search" :timeout "5s"
+		(box :space-evenly false :class "search_bar"
+			(label :class "Sound" :text "🔍")
+			(input :hexpand true :onaccept "~/.config/eww/scripts/search.sh {}"))))

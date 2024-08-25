@@ -1,0 +1,33 @@
+[user]
+	email = josee.edumont@gmail.com
+	name = Jose Eduardo Monteiro
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[core]
+	pager = delta
+	excludesFile = /home/josee/.gitignore
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+
+
+[diff]
+        tool = difftastic
+
+[difftool]
+        prompt = false
+
+[difftool "difftastic"]
+        cmd = difft "$LOCAL" "$REMOTE"
+
+# Use a pager for large output, just like other git commands.
+[pager]
+        difftool = true
+
+# `git dft` is less to type than `git difftool`.
+[alias]
+        dft = difftool
+
