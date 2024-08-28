@@ -1,6 +1,39 @@
 { config, pkgs, ... }:
 
-{
+let
+	# retroarch = pkgs.retroarch.override {
+	# 	cores = with pkgs.libretro; [
+	# 		mgba
+	# 		melonds
+	# 		ppsspp
+	# 		pcsx2
+	# 		bsnes
+	# 	];
+	# };
+  # llm = pkgs.llm.overrideAttrs (old: {
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "simonw";
+  #     repo = "llm";
+  #     rev = "0.15";
+  #     sha256 = "sha256-PPmbqY9+OYGs4U3z3LHs7a3BjQ0AlRY6J+SKmCY3bXk=";
+  #   };
+  #
+  #   propagatedBuildInputs = (old.propagatedBuildInputs or [ ]) ++ [
+  #     (pkgs.python3Packages.sqlite-utils.overrideAttrs (oldAttrs: {
+		# 		version = 3.37;
+  #       src = pkgs.fetchFromGitHub {
+  #         owner = "simonw";
+  #         repo = "sqlite-utils";
+  #         rev = "3.37";
+  #         sha256 = "sha256-M6PbP4/HRw9EfCtZl4zzQjE7Blcs/Icpw2aSe8f0ZTs=";
+  #       };
+  #     }))
+  #   ];
+  #
+		# pythonImportCheck = [];
+  #
+  # });
+in {
   programs.home-manager.enable = true;
   home.username = "josee";
   home.homeDirectory = "/home/josee";
@@ -37,15 +70,21 @@
     anki-bin
     process-compose
     yt-dlp
+    gh
+		llm
   ];
 
   xdg.enable = true;
 
-	xdg.configFile."nvim" = {
- 	  source = ./config/nvim;
-	  recursive = true;
-	};
+  home.file = { ".local/bin".source = ../../scripts; };
 
+  xdg.configFile = {
+    nvim = {
+      source = ~/dotfiles/hosts/nusuth/config/nvim;
+      recursive = true;
+    };
+    alacritty.source = ~/dotfiles/hosts/nusuth/config/alacritty;
+  };
   home.shellAliases = {
     g = "git";
     gst = "git status";
@@ -171,4 +210,10 @@
   programs.ssh = { enable = true; };
 
   programs.go = { enable = true; };
+
+	services.syncthing = {
+		enable = true;
+		user = "joseemds";
+		dataDir = "~/sync/"
+	};
 }

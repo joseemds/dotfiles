@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+
+if [$# -eq 0]; then
+	echo "Please provide the migrations path"
+	exit 1
+fi
+
+
+migrations_dir="$1"
+
+
+if [! -d "$migrations_dir"]; then
+	echo "Directory does not exists"
+	exit 1
+fi
+
+find "$migrations_dir" -type f -name "*.sql" | sort | while read -r file; do
+    echo "-- Contents of file: $file"
+    cat "$file"
+    echo  # Add a newline between files
+done
