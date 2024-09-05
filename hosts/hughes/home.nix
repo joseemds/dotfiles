@@ -1,7 +1,6 @@
 {pkgs, ...}: 
 
 	{
-		programs.tmux.enable = true;
 		programs.fish = {
 			enable = true;
 			plugins = [
@@ -24,16 +23,6 @@
 							fenv source /nix/var/nix/profiles/default/etc/profile.d/nix.sh
 						end
 						'';
-					};
-
-		programs.git = {
-			enable = true;
-			userName = "joseemds";
-			userEmail = "mds.josee@gmail.com";
-			difftastic.enable = true;
-			extraConfig = {
-				init.defaultBranch = "main";
-			};
 		};
 
 		home.shellAliases = {
@@ -97,7 +86,7 @@
 			 lS="exa -1"; 
 			};
 
-		home.stateVersion = "23.05";
+		home.stateVersion = "24.05";
 		home.sessionPath = ["$HOME/.cargo/bin" "$HOME/.local/bin" "/run/current-system/sw/bin" "/opt/homebrew/bin"];
 		home.sessionVariables = {
 			EDITOR = "nvim";
@@ -123,7 +112,6 @@
 			pkgs.direnv 
 			pkgs.bat 
 			pkgs.fd 
-			pkgs.exa 
 			pkgs.lsd 
 			pkgs.du-dust
 			pkgs.stgit
@@ -136,9 +124,60 @@
 			pkgs.lazydocker
 			pkgs.zathura
 			pkgs.openssl
+			pkgs.mtm
+			pkgs.eza
+			(pkgs.nerdfonts.override {
+				fonts = [
+					"Mononoki"
+					"Lilex"
+					"Iosevka"
+				];
+			})
 		];
 
-		programs.zellij = {
-			enable = true;
-		};
+  programs.zoxide = {
+    enable = true;
+    enableFishIntegration = true;
+    enableBashIntegration = true;
+
+  };
+
+  programs.git = {
+    enable = true;
+    userName = "Jose Eduardo Monteiro";
+    userEmail = "mds.josee@gmail.com";
+    difftastic.enable = true;
+    extraConfig = {
+      init.defaultBranch = "main";
+      core.excludesFile = "~/.gitignore_global";
+      merge.conflictstyle = "zdiff3";
+      push.autoSetupRemote = true;
+      rerere.enable = true;
+      diff.algorithm = "histogram";
+      log.date = "iso";
+      rebase.updateRefs = "true";
+      merge.tool = "nvimdiff";
+    };
+  };
+
+  programs.mise = {
+    enable = true;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+  };
+
+  programs.atuin = {
+    enable = false;
+    enableFishIntegration = true;
+    enableBashIntegration = true;
+  };
+
+  programs.tmux = {
+    enable = true;
+    shell = "${pkgs.fish}/bin/fish";
+    escapeTime = 10;
+    terminal = "screen-256color";
+    sensibleOnTop = true;
+    extraConfig = "	set -ag terminal-overrides \",xterm-256color:RGB\"\n";
+  };
 }
