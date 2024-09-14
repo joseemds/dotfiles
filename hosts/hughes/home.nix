@@ -87,14 +87,15 @@
 			};
 
 		home.stateVersion = "24.05";
-		home.sessionPath = ["$HOME/.cargo/bin" "$HOME/.local/bin" "/run/current-system/sw/bin" "/opt/homebrew/bin"];
+		home.sessionPath = ["/opt/homebrew/bin" "$HOME/.cargo/bin" "$HOME/.local/bin" "/run/current-system/sw/bin"];
 		home.sessionVariables = {
 			EDITOR = "nvim";
 		};
 
+		programs.neovim.enable = true;
+
 		home.packages = [
 			pkgs.coreutils 
-			pkgs.neovim
 			pkgs.ripgrep 
 			pkgs.tree 
 			pkgs.tokei 
@@ -125,6 +126,7 @@
 			pkgs.zathura
 			pkgs.openssl
 			pkgs.mtm
+			pkgs.jujutsu
 			pkgs.eza
 			(pkgs.nerdfonts.override {
 				fonts = [
@@ -180,4 +182,6 @@
     sensibleOnTop = true;
     extraConfig = "	set -ag terminal-overrides \",xterm-256color:RGB\"\n";
   };
+
+	programs.jujutsu.enable = true;
 }
