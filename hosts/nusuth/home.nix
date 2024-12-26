@@ -1,15 +1,17 @@
-{ config, pkgs, ... }:
-
-let
-	# retroarch = pkgs.retroarch.override {
-	# 	cores = with pkgs.libretro; [
-	# 		mgba
-	# 		melonds
-	# 		ppsspp
-	# 		pcsx2
-	# 		bsnes
-	# 	];
-	# };
+{
+  config,
+  pkgs,
+  ...
+}: let
+  # retroarch = pkgs.retroarch.override {
+  # 	cores = with pkgs.libretro; [
+  # 		mgba
+  # 		melonds
+  # 		ppsspp
+  # 		pcsx2
+  # 		bsnes
+  # 	];
+  # };
   # llm = pkgs.llm.overrideAttrs (old: {
   #   src = pkgs.fetchFromGitHub {
   #     owner = "simonw";
@@ -20,7 +22,7 @@ let
   #
   #   propagatedBuildInputs = (old.propagatedBuildInputs or [ ]) ++ [
   #     (pkgs.python3Packages.sqlite-utils.overrideAttrs (oldAttrs: {
-		# 		version = 3.37;
+  # 		version = 3.37;
   #       src = pkgs.fetchFromGitHub {
   #         owner = "simonw";
   #         repo = "sqlite-utils";
@@ -30,7 +32,7 @@ let
   #     }))
   #   ];
   #
-		# pythonImportCheck = [];
+  # pythonImportCheck = [];
   #
   # });
 in {
@@ -71,12 +73,12 @@ in {
     process-compose
     yt-dlp
     gh
-		llm
+    llm
   ];
 
   xdg.enable = true;
 
-  home.file = { ".local/bin".source = ../../scripts; };
+  home.file = {".local/bin".source = ../../scripts;};
 
   xdg.configFile = {
     nvim = {
@@ -136,8 +138,7 @@ in {
     gct = ''cd "$(git worktree list | fzf | awk '{print $1}')"'';
     ggpur = "git pull --rebase origin (current_branch)";
     ggpush = "git push origin (current_branch)";
-    ggpnp =
-      "git pull origin (current_branch); and git push origin (current_branch)";
+    ggpnp = "git pull origin (current_branch); and git push origin (current_branch)";
     gpsup = "git push --set-upstream origin (current_branch)";
     gunwip = "git log -n 1 | grep -q -c wip; and git reset HEAD~1";
     ls = "eza";
@@ -149,14 +150,16 @@ in {
     lS = "eza -1";
   };
 
-  home.sessionPath = [ "$HOME/.local/bin" ];
+  home.sessionPath = ["$HOME/.local/bin"];
 
   programs.fish = {
     enable = true;
-    plugins = with pkgs.fishPlugins; [{
-      name = "tide";
-      src = tide.src;
-    }];
+    plugins = with pkgs.fishPlugins; [
+      {
+        name = "tide";
+        src = tide.src;
+      }
+    ];
     shellInit = "	set -U fish_features all\n";
   };
 
@@ -164,7 +167,6 @@ in {
     enable = true;
     enableFishIntegration = true;
     enableBashIntegration = true;
-
   };
 
   programs.git = {
@@ -184,7 +186,7 @@ in {
       merge.tool = "nvimdiff";
     };
   };
-  home.sessionVariables = { EDITOR = "nvim"; };
+  home.sessionVariables = {EDITOR = "nvim";};
 
   programs.mise = {
     enable = true;
@@ -207,13 +209,13 @@ in {
     extraConfig = "	set -ag terminal-overrides \",xterm-256color:RGB\"\n";
   };
 
-  programs.ssh = { enable = true; };
+  programs.ssh = {enable = true;};
 
-  programs.go = { enable = true; };
+  programs.go = {enable = true;};
 
-	services.syncthing = {
-		enable = true;
-		user = "joseemds";
-		dataDir = "~/sync/"
-	};
+  services.syncthing = {
+    enable = true;
+    user = "joseemds";
+    dataDir = "~/sync/";
+  };
 }

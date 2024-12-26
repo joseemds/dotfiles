@@ -9,19 +9,24 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, home-manager, nixpkgs }:
-  {
+  outputs = inputs @ {
+    self,
+    nix-darwin,
+    home-manager,
+    nixpkgs,
+  }: {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#josee
     darwinConfigurations."josee" = nix-darwin.lib.darwinSystem {
-      modules = [ ./configuration.nix 
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.josee = import ./home.nix;
-					}
-			];
+      modules = [
+        ./configuration.nix
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.josee = import ./home.nix;
+        }
+      ];
     };
 
     # Expose the package set, including overlays, for convenience.
