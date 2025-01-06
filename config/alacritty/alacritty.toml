@@ -5,5 +5,5 @@ size = 14
 [env]
 TERM = "xterm-256color"
 
-[shell]
-program = "/home/josee/.nix-profile/bin/fish"
+[terminal]
+shell = "/home/josee/.nix-profile/bin/fish"

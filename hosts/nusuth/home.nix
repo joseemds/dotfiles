@@ -41,7 +41,7 @@ in {
   home.homeDirectory = "/home/josee";
 
   # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "24.11"; # Please read the comment before changing.
 
   home.packages = with pkgs; [
     ripgrep
@@ -69,7 +69,6 @@ in {
     delta
     wiki-tui
     gopls
-    anki-bin
     process-compose
     yt-dlp
     gh
@@ -82,10 +81,10 @@ in {
 
   xdg.configFile = {
     nvim = {
-      source = ~/dotfiles/hosts/nusuth/config/nvim;
+      source = ~/dotfiles/config/nvim;
       recursive = true;
     };
-    alacritty.source = ~/dotfiles/hosts/nusuth/config/alacritty;
+    alacritty.source = ~/dotfiles/config/alacritty;
   };
   home.shellAliases = {
     g = "git";
@@ -213,9 +212,9 @@ in {
 
   programs.go = {enable = true;};
 
-  services.syncthing = {
-    enable = true;
-    user = "joseemds";
-    dataDir = "~/sync/";
-  };
+	services.syncthing = {
+		enable = true;
+		user = "joseemds";
+		dataDir = "~/sync/"
+	};
 }
