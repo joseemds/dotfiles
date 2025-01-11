@@ -212,9 +212,9 @@ in {
 
   programs.go = {enable = true;};
 
-	services.syncthing = {
-		enable = true;
-		user = "joseemds";
-		dataDir = "~/sync/"
-	};
+	# services.syncthing = {
+	# 	enable = true;
+	# 	user = "joseemds";
+	# 	dataDir = "~/sync"
+	# };
 }
