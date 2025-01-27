@@ -1,9 +1,8 @@
 local ok_lsp, lsp = pcall(require, "lspconfig")
-local ok_cmp, cmplsp = pcall(require, "cmp_nvim_lsp")
 local ok_mason, masonlsp = pcall(require, "mason-lspconfig")
 local ok_zero, lsp_zero = pcall(require, "lsp-zero")
 
-if not (ok_lsp or ok_cmp or ok_mason) then
+if not (ok_lsp or ok_mason) then
 	return
 end
 
@@ -68,7 +67,7 @@ local on_attach = function(_, bufnr)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('blink.cmp').get_lsp_capabilites(capabilities)
+capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
 
 local servers = {
