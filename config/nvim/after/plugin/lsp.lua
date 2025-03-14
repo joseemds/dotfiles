@@ -71,6 +71,7 @@ capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
 
 local servers = {
+	sqlfluff = {},
 	tsserver = {},
 	clangd = {},
 	lua_ls = {

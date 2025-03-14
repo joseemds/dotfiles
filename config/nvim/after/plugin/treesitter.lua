@@ -1,7 +1,7 @@
 require('nvim-treesitter.configs').setup {
 	ensure_installed = { 'c', 'lua', 'python', 'rust', 'typescript', 'tsx', 'vim', 'ocaml', 'ocamllex',
-		'ocaml_interface', 'menhir', 'nix', 'haskell', 'elm', 'elixir', 'css', 'html', 'javascript', 'bash', 'make', 'json',
-		'gleam', 'gitcommit', 'gitignore' },
+		'ocaml_interface', 'menhir', 'nix', 'haskell', 'elixir', 'css', 'html', 'javascript', 'bash', 'make', 'json',
+		'gleam', 'gitcommit', 'gitignore', 'java' },
 	highlight = {
 		enable = true,
 		disable = function(_lang, buf)

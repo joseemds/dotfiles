@@ -107,32 +107,24 @@
     pkgs.bat
     pkgs.htop
     pkgs.jq
-    pkgs.lua5
-    pkgs.niv
-    pkgs.nodejs
     pkgs.atool
     pkgs.httpie
-    pkgs.nodePackages.pnpm
     pkgs.curl
     pkgs.direnv
     pkgs.bat
     pkgs.fd
-    pkgs.lsd
     pkgs.du-dust
-    pkgs.stgit
     pkgs.gh
     pkgs.lazygit
     pkgs.delta
     pkgs.difftastic
-    pkgs.wiki-tui
     pkgs.anki-bin
     pkgs.lazydocker
-    pkgs.zathura
     pkgs.openssl
-    pkgs.mtm
     pkgs.jujutsu
     pkgs.eza
     pkgs.llm
+		pkgs.pueue
     (pkgs.nerdfonts.override {
       fonts = [
         "Mononoki"
