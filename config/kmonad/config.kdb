@@ -1,0 +1,76 @@
+(defcfg
+  input  (device-file "/dev/input/by-id/usb-ROYUAN_2.4G_Wireless_Keyboard-event-kbd")
+  output (uinput-sink "kmonad-outc"
+    ;; To understand the importance of the following line, see the section on
+    ;; Compose-key sequences at the near-bottom of this file.
+    "sleep 1 && setxkbmap -option compose:ralt")
+  cmp-seq ralt    ;; Set the compose key to `RightAlt'
+  cmp-seq-delay 5 ;; 5ms delay between each compose-key sequence press
+  fallthrough true
+
+  allow-cmd true
+
+  implicit-around around
+)
+
+;; See: https://github.com/kmonad/kmonad/blob/master/src/KMonad/Keyboard/Keycode.hs
+
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc       del
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \          pgup
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret					    pgdn
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft            up
+  lctl lmet lalt           spc            ralt rmet      rctl      left down rght
+)
+
+
+(defalias
+  sym (layer-toggle symbols)
+
+  ;; --- Logic and Set Theory ---
+  fall (cmd-button "ktype ∀") ;; ∀ - For All          (on 'a' key)
+  exis (cmd-button "ktype ∃") ;; ∃ - Exists          (on 'e' key)
+  impl (cmd-button "ktype ⇒") ;; ⇒ - Implies         (on '=' key)
+  bimp (cmd-button "ktype ⇔") ;; ⇔ - Bi-implies      (on 'S-=')
+  lnot (cmd-button "ktype ¬") ;; ¬ - Logical Not       (on 'n' key)
+  land (cmd-button "ktype ∧") ;; ∧ - Logical And       (on '7' key)
+  lor  (cmd-button "ktype ∨") ;; ∨ - Logical Or        (on '8' key)
+  elin (cmd-button "ktype ∈") ;; ∈ - Element Of        (on 'i' for 'in')
+  nin  (cmd-button "ktype ∉") ;; ∉ - Not Element Of    (on 'S-i')
+  subs (cmd-button "ktype ⊆") ;; ⊆ - Subset Of         (on 's' key)
+  sups (cmd-button "ktype ⊇") ;; ⊇ - Superset Of       (on 'S-s')
+  unio (cmd-button "ktype ∪") ;; ∪ - Union           (on 'u' key)
+  isec (cmd-button "ktype ∩") ;; ∩ - Intersection      (on 'c' for 'cap')
+
+  ;; --- Math and Programming ---
+  lamb (cmd-button "ktype λ") ;; λ - Lambda          (on 'l' key)
+  func (cmd-button "ktype ƒ") ;; ƒ - Function        (on 'f' key)
+  neq  (cmd-button "ktype ≠") ;; ≠ - Not Equal       (on '/' key)
+  leq  (cmd-button "ktype ≤") ;; ≤ - Less/Equal      (on ',' key)
+  geq  (cmd-button "ktype ≥") ;; ≥ - Greater/Equal   (on '.' key)
+  rarr (cmd-button "ktype →") ;; → - Right Arrow     (on '-' key)
+  larr (cmd-button "ktype ←") ;; ← - Left Arrow      (on 'S--')
+  degr (cmd-button "ktype °") ;; ° - Degree          (on '0' key)
+  inf  (cmd-button "ktype ∞") ;; ∞ - Infinity        (on 'S-8')
+)
+
+
+
+(deflayer qwerty
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc       del
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \          pgup
+  @sym a    s    d    f    g    h    j    k    l    ;    '    ret					    pgdn
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft            up
+  lctl lmet lalt           spc            ralt rmet      rctl      left down rght
+)
+
+(deflayer symbols
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @degr @larr @bimp      del
+  XX   XX   XX   XX   XX   XX   XX   @land (around S @lor) @inf   @rarr @impl  bspc  del 
+  XX   XX   XX   @exis XX  XX   XX   @unio (around S @nin)  XX    XX   XX   XX   XX pgup  
+  XX   @fall (around S @sups) XX @func XX XX   XX   XX   @lamb ;    '      ret      pgdn
+  lsft XX   XX   @isec XX  XX   @lnot XX   @leq  @geq  @neq  rsft            up
+  lctl lmet lalt           spc            ralt rmet      rctl           left down rght
+)
