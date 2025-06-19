@@ -1,6 +1,6 @@
-vim.cmd [[
-	:autocmd BufNewFile, BufRead *.tex VimtexCompile
-]]
+-- vim.cmd [[
+-- 	:autocmd BufNewFile, BufRead *.tex VimtexCompilelatex.lua
+-- ]]
 
 vim.g.tex_flavor = 'latex'
 vim.g.vimtex_view_method = 'zathura'
