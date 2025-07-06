@@ -1,3 +1,10 @@
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { '<filetype>' },
+  callback = function() vim.treesitter.start() end,
+})
+
+--
+--
 -- require('nvim-treesitter').setup {
 -- 	ensure_installed = { 'c', 'lua', 'python', 'rust', 'typescript', 'tsx', 'vim', 'ocaml', 'ocamllex',
 -- 		'ocaml_interface', 'menhir', 'nix', 'haskell', 'elm', 'elixir', 'css', 'html', 'javascript', 'bash', 'make', 'json',
