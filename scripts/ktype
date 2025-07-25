@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# ktype - types a string using the appropriate tool for Wayland or X11.
+
+# Check if an argument was provided.
+if [ -z "$1" ]; then
+  echo "Usage: ktype <string_to_type>" >&2
+  exit 1
+fi
+
+# A tiny delay can prevent race conditions with kmonad's key-release.
+sleep 0.02
+
+# Check if we are in a Wayland session.
+if [ -n "$WAYLAND_DISPLAY" ]; then
+  if command -v wtype >/dev/null 2>&1; then
+    wtype "$1"
+  else
+    echo "ktype error: 'wtype' command not found for Wayland." >&2
+    exit 1
+  fi
+# Check if we are in an X11 session.
+elif [ -n "$DISPLAY" ]; then
+  if command -v xdotool >/dev/null 2>&1; then
+    xdotool type --clearmodifiers "$1"
+  else
+    echo "ktype error: 'xdotool' command not found for X11." >&2
+    exit 1
+  fi
+else
+  echo "ktype error: Could not determine display server (no WAYLAND_DISPLAY or DISPLAY)." >&2
+  exit 1
+fi

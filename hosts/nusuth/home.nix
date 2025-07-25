@@ -73,6 +73,7 @@ in {
     yt-dlp
     gh
     llm
+		kmonad
   ];
 
   xdg.enable = true;

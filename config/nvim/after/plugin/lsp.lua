@@ -1,122 +1,183 @@
-local ok_lsp, lsp = pcall(require, "lspconfig")
-local ok_mason, masonlsp = pcall(require, "mason-lspconfig")
-local ok_zero, lsp_zero = pcall(require, "lsp-zero")
+local methods = vim.lsp.protocol.Methods
 
-if not (ok_lsp or ok_mason) then
-	return
-end
+local M = {}
 
-local format_range = function()
-	local start = vim.fn.getpos("v")
-	local end_ = vim.fn.getpos(".")
-	local start_row, start_col = start[2], start[3]
-	local end_row, end_col = end_[2], end_[3]
-	vim.lsp.buf.format({
-		range = {
-			['start'] = { start_row, start_col },
-			['end'] = { end_row, end_col }
-		}
-	})
-end
+-- Disable inlay hints initially (and enable if needed with my ToggleInlayHints command).
+vim.g.inlay_hints = false
 
-local on_attach = function(_, bufnr)
-	local nmap = function(keys, func, desc)
-		if desc then
-			desc = 'LSP: ' .. desc
-		end
-
-		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+--- Sets up LSP keymaps and autocommands for the given buffer.
+---@param client vim.lsp.Client
+---@param bufnr integer
+local function on_attach(client, bufnr)
+	---@param lhs string
+	---@param rhs string|function
+	---@param desc string
+	---@param mode? string|string[]
+	local function keymap(lhs, rhs, desc, mode)
+		mode = mode or 'n'
+		vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
 	end
 
-	local vmap = function(keys, func, desc)
-		if desc then
-			desc = 'LSP: ' .. desc
-		end
+	keymap('gra', function()
+		require('tiny-code-action').code_action()
+	end, 'vim.lsp.buf.code_action()', { 'n', 'x' })
 
-		vim.keymap.set('v', keys, func, { buffer = bufnr, desc = desc })
+	keymap('grr', '<cmd>FzfLua lsp_references<cr>', 'vim.lsp.buf.references()')
+
+	keymap('gy', '<cmd>FzfLua lsp_typedefs<cr>', 'Go to type definition')
+
+	keymap('<leader>fs', '<cmd>FzfLua lsp_document_symbols<cr>', 'Document symbols')
+
+	keymap('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
+	keymap(']d', vim.diagnostic.goto_next, 'Next diagnostic')
+	keymap('[e', function()
+		vim.diagnostic.jump { count = -1, severity = vim.diagnostic.severity.ERROR }
+	end, 'Previous error')
+	keymap(']e', function()
+		vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
+	end, 'Next error')
+
+	if client:supports_method(methods.textDocument_definition) then
+		keymap('gd', function()
+			require('fzf-lua').lsp_definitions { jump1 = true }
+		end, 'Go to definition')
+		keymap('gD', function()
+			require('fzf-lua').lsp_definitions { jump1 = false }
+		end, 'Peek definition')
 	end
 
+	if client:supports_method(methods.textDocument_signatureHelp) then
+		keymap('<C-k>', function()
+			-- Close the completion menu first (if open).
+			if require('blink.cmp.completion.windows.menu').win:is_open() then
+				require('blink.cmp').hide()
+			end
 
-	nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-	nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+			vim.lsp.buf.signature_help()
+		end, 'Signature help', 'i')
+	end
 
-	nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-	nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-	nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-	nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-	nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-	nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+	if client:supports_method(methods.textDocument_documentHighlight) then
+		local under_cursor_highlights_group =
+				vim.api.nvim_create_augroup('mariasolos/cursor_highlights', { clear = false })
+		vim.api.nvim_create_autocmd({ 'CursorHold', 'InsertLeave' }, {
+			group = under_cursor_highlights_group,
+			desc = 'Highlight references under the cursor',
+			buffer = bufnr,
+			callback = vim.lsp.buf.document_highlight,
+		})
+		vim.api.nvim_create_autocmd({ 'CursorMoved', 'InsertEnter', 'BufLeave' }, {
+			group = under_cursor_highlights_group,
+			desc = 'Clear highlight references',
+			buffer = bufnr,
+			callback = vim.lsp.buf.clear_references,
+		})
+	end
 
-	-- See `:help K` for why this keymap
-	nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-	nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+	if client:supports_method(methods.textDocument_inlayHint) then
+		local inlay_hints_group = vim.api.nvim_create_augroup('mariasolos/toggle_inlay_hints', { clear = false })
 
-	-- Lesser used LSP functionality
-	nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-	nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-	nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-	nmap('<leader>wl', function()
-		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-	end, '[W]orkspace [L]ist Folders')
-	vmap('<leader>lf', format_range, '[L]SP [F]ormat')
+		if vim.g.inlay_hints then
+			-- Initial inlay hint display.
+			-- Idk why but without the delay inlay hints aren't displayed at the very start.
+			vim.defer_fn(function()
+				local mode = vim.api.nvim_get_mode().mode
+				vim.lsp.inlay_hint.enable(mode == 'n' or mode == 'v', { bufnr = bufnr })
+			end, 500)
+		end
 
-	-- Create a command `:Format` local to the LSP buffer
-	vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-		vim.lsp.buf.format()
-	end, { desc = 'Format current buffer with LSP' })
-end
+		vim.api.nvim_create_autocmd('InsertEnter', {
+			group = inlay_hints_group,
+			desc = 'Enable inlay hints',
+			buffer = bufnr,
+			callback = function()
+				if vim.g.inlay_hints then
+					vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+				end
+			end,
+		})
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+		vim.api.nvim_create_autocmd('InsertLeave', {
+			group = inlay_hints_group,
+			desc = 'Disable inlay hints',
+			buffer = bufnr,
+			callback = function()
+				if vim.g.inlay_hints then
+					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+				end
+			end,
+		})
+	end
 
+	-- Add "Fix all" command for ESLint.
+	if client.name == 'eslint' then
+		vim.keymap.set('n', '<leader>ce', function()
+			if not client then
+				return
+			end
 
-local servers = {
-	sqlfluff = {},
-	tsserver = {},
-	clangd = {},
-	lua_ls = {
-		Lua = {
-			format = { enable = true },
-			workspace = { checkThirdParty = false },
-			telemetry = { enable = false },
-		},
-	},
-	astro = {},
-	tailwindcss = {
-		tailwindCSS = {
-			experimental = {
-				classRegex = {
-					{ "cva\\(([^)]*)\\)",
-						"[\"'`]([^\"'`]*).*?[\"'`]" },
+			client:request(vim.lsp.protocol.Methods.workspace_executeCommand, {
+				command = 'eslint.applyAllFixes',
+				arguments = {
+					{
+						uri = vim.uri_from_bufnr(bufnr),
+						version = vim.lsp.util.buf_versions[bufnr],
+					},
 				},
-			},
-		}
-	},
-}
+			}, nil, bufnr)
+		end, { desc = 'Fix all ESLint errors', buffer = bufnr })
+	end
+end
 
 
-masonlsp.setup {
-	ensure_installed = vim.tbl_keys(servers),
-	handlers = {
-		function(server_name)
-			require('lspconfig')[server_name].setup({})
-		end,
-		jdtls = lsp_zero.noop,
+local signature_help = vim.lsp.buf.signature_help
+---@diagnostic disable-next-line: duplicate-set-field
+vim.lsp.buf.signature_help = function()
+	return signature_help {
+		max_height = math.floor(vim.o.lines * 0.5),
+		max_width = math.floor(vim.o.columns * 0.4),
 	}
+end
+
+-- Override the virtual text diagnostic handler so that the most severe diagnostic is shown first.
+local show_handler = vim.diagnostic.handlers.virtual_text.show
+assert(show_handler)
+local hide_handler = vim.diagnostic.handlers.virtual_text.hide
+vim.diagnostic.handlers.virtual_text = {
+	show = function(ns, bufnr, diagnostics, opts)
+		table.sort(diagnostics, function(diag1, diag2)
+			return diag1.severity > diag2.severity
+		end)
+		return show_handler(ns, bufnr, diagnostics, opts)
+	end,
+	hide = hide_handler,
 }
 
-lsp_zero.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
-  lsp_zero.default_keymaps({buffer = bufnr})
-end)
+vim.api.nvim_create_autocmd('LspAttach', {
+	desc = 'Configure LSP keymaps',
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-lsp.ocamllsp.setup {
-	file_types = { "ocaml", "reason", "dune", "menhir", "ocamllex" },
-	on_attach = on_attach,
-	capabilities = capabilities,
-	settings = { extendedHover = { enable = true }, codelens = { enable = true }, handleTypedHoles = true, handleInferIntf = true}
-}
-lsp.gleam.setup { on_attach = on_attach, capabilities = capabilities }
-lsp.hls.setup { on_attach = on_attach, capabilities = capabilities }
-lsp.rust_analyzer.setup { on_attach = on_attach, capabilities = capabilities }
+		-- I don't think this can happen but it's a wild world out there.
+		if not client then
+			return
+		end
+
+		on_attach(client, args.buf)
+	end,
+})
+
+-- Set up LSP servers.
+vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile' }, {
+	once = true,
+	callback = function()
+		local server_configs = vim.iter(vim.api.nvim_get_runtime_file('lsp/*.lua', true))
+				:map(function(file)
+					return vim.fn.fnamemodify(file, ':t:r')
+				end)
+				:totable()
+		vim.lsp.enable(server_configs)
+	end,
+})
+
+return M

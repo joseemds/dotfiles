@@ -1,7 +1,8 @@
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ','
+vim.g.maplocalleader = ' '
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
 
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -21,12 +22,13 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require "settings"
-vim.cmd.colorscheme = 'everforest'
 
 require("lazy").setup({
 	spec = {
 	  { import = "plugins" },
 	},
 	checker = { enabled = true },
-  })
+})
 
+
+vim.cmd.colorscheme "everforest"

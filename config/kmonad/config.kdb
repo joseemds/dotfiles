@@ -1,0 +1,174 @@
+(defcfg
+  input  (device-file "/dev/input/by-id/usb-ROYUAN_2.4G_Wireless_Keyboard-event-kbd")
+  output (uinput-sink "kmonad-outc"
+    ;; To understand the importance of the following line, see the section on
+    ;; Compose-key sequences at the near-bottom of this file.
+    "sleep 1 && setxkbmap -option compose:ralt")
+  cmp-seq ralt    ;; Set the compose key to `RightAlt'
+  cmp-seq-delay 5 ;; 5ms delay between each compose-key sequence press
+  fallthrough true
+
+  allow-cmd true
+
+  implicit-around around
+)
+
+;; See: https://github.com/kmonad/kmonad/blob/master/src/KMonad/Keyboard/Keycode.hs
+
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc       del
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \          pgup
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret					    pgdn
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft            up
+  lctl lmet lalt           spc            ralt rmet      rctl      left down rght
+)
+
+
+(defalias
+  sym (layer-toggle symbols)
+  
+  fall (cmd-button "ktype ∀") ;; ∀ - For All          (on 'a' key)
+  exis (cmd-button "ktype ∃") ;; ∃ - Exists          (on 'e' key)
+  nexs (cmd-button "ktype ∄") ;; ∄ - Does Not Exist  (on 'S-e')
+  impl (cmd-button "ktype ⇒") ;; ⇒ - Implies         (on '=' key)
+  bimp (cmd-button "ktype ⇔") ;; ⇔ - Bi-implies      (on 'S-=')
+  lnot (cmd-button "ktype ¬") ;; ¬ - Logical Not       (on 'n' key)
+  land (cmd-button "ktype ∧") ;; ∧ - Logical And       (on '7' key)
+  lor  (cmd-button "ktype ∨") ;; ∨ - Logical Or        (on '8' key)
+  nand (cmd-button "ktype ⊼") ;; ⊼ - NAND             (on 'S-7')
+  nor  (cmd-button "ktype ⊽") ;; ⊽ - NOR              (on 'S-8')
+  xor  (cmd-button "ktype ⊕") ;; ⊕ - XOR              (on '9' key)
+  
+  necs (cmd-button "ktype □") ;; □ - Necessity        (on 'b' for 'box')
+  poss (cmd-button "ktype ◇") ;; ◇ - Possibility      (on 'd' for 'diamond')
+  know (cmd-button "ktype K") ;; K - Knowledge         (on 'k' key)
+  beli (cmd-button "ktype B") ;; B - Belief           (on 'S-b')
+  
+  loli (cmd-button "ktype ⊸") ;; ⊸ - Linear Implies   (on 'S--')
+  tens (cmd-button "ktype ⊗") ;; ⊗ - Tensor          (on 't' key)
+  parr (cmd-button "ktype ℘") ;; ℘ - Par              (on 'p' key)
+  with (cmd-button "ktype &") ;; & - With             (on '&' key)
+  plus (cmd-button "ktype ⊕") ;; ⊕ - Plus             (on '+' key)
+  bang (cmd-button "ktype !") ;; ! - Of Course        (on '!' key)
+  whyn (cmd-button "ktype ?") ;; ? - Why Not          (on '?' key)
+  
+  ;; --- Other Implications and Relations ---
+  vdsh (cmd-button "ktype ⊢") ;; ⊢ - Vdash (proves)   (on '|' key)
+  vDsh (cmd-button "ktype ⊨") ;; ⊨ - VDash (models)   (on 'S-|')
+  mapf (cmd-button "ktype ↦") ;; ↦ - Maps to          (on 'm' key)
+  isom (cmd-button "ktype ≅") ;; ≅ - Isomorphic       (on 'S-=')
+  appr (cmd-button "ktype ≈") ;; ≈ - Approximately    (on '~' key)
+  prop (cmd-button "ktype ∝") ;; ∝ - Proportional     (on 'S-~')
+  
+  ;; --- Set Theory Extended ---
+  elin (cmd-button "ktype ∈") ;; ∈ - Element Of        (on 'i' for 'in')
+  nin  (cmd-button "ktype ∉") ;; ∉ - Not Element Of    (on 'S-i')
+  subs (cmd-button "ktype ⊆") ;; ⊆ - Subset Of         (on 's' key)
+  sups (cmd-button "ktype ⊇") ;; ⊇ - Superset Of       (on 'S-s')
+  psub (cmd-button "ktype ⊂") ;; ⊂ - Proper Subset    (on 'S-<')
+  psup (cmd-button "ktype ⊃") ;; ⊃ - Proper Superset  (on 'S->')
+  unio (cmd-button "ktype ∪") ;; ∪ - Union           (on 'u' key)
+  isec (cmd-button "ktype ∩") ;; ∩ - Intersection      (on 'c' for 'cap')
+  sdif (cmd-button "ktype ∖") ;; ∖ - Set Difference    (on 'S-/')
+  symd (cmd-button "ktype △") ;; △ - Symmetric Diff    (on 'S-d')
+  empt (cmd-button "ktype ∅") ;; ∅ - Empty Set        (on 'o' key)
+  powr (cmd-button "ktype 𝒫") ;; 𝒫 - Power Set        (on 'S-p')
+  
+  ;; --- Math and Programming ---
+  lamb (cmd-button "ktype λ") ;; λ - Lambda          (on 'l' key)
+  func (cmd-button "ktype ƒ") ;; ƒ - Function        (on 'f' key)
+  comp (cmd-button "ktype ∘") ;; ∘ - Composition     (on 'S-o')
+  neq  (cmd-button "ktype ≠") ;; ≠ - Not Equal       (on '/' key)
+  leq  (cmd-button "ktype ≤") ;; ≤ - Less/Equal      (on ',' key)
+  geq  (cmd-button "ktype ≥") ;; ≥ - Greater/Equal   (on '.' key)
+  much (cmd-button "ktype ≪") ;; ≪ - Much Less       (on 'S-,')
+  mugh (cmd-button "ktype ≫") ;; ≫ - Much Greater    (on 'S-.')
+  rarr (cmd-button "ktype →") ;; → - Right Arrow     (on '-' key)
+  larr (cmd-button "ktype ←") ;; ← - Left Arrow      (on 'S--')
+  uarr (cmd-button "ktype ↑") ;; ↑ - Up Arrow        (on 'S-^')
+  darr (cmd-button "ktype ↓") ;; ↓ - Down Arrow      (on 'S-v')
+  degr (cmd-button "ktype °") ;; ° - Degree          (on '0' key)
+  inf  (cmd-button "ktype ∞") ;; ∞ - Infinity        (on 'S-8')
+  part (cmd-button "ktype ∂") ;; ∂ - Partial         (on 'S-d')
+  nabla (cmd-button "ktype ∇") ;; ∇ - Nabla           (on 'S-n')
+  sqrt (cmd-button "ktype √") ;; √ - Square Root      (on 'r' key)
+  cbrt (cmd-button "ktype ∛") ;; ∛ - Cube Root       (on 'S-r')
+  intg (cmd-button "ktype ∫") ;; ∫ - Integral        (on 'S-i')
+  sum  (cmd-button "ktype Σ") ;; Σ - Summation       (on 'S-s')
+  prod (cmd-button "ktype Π") ;; Π - Product         (on 'S-p')
+  
+  ;; --- Greek Letters (Essential) ---
+  alph (cmd-button "ktype α") ;; α - Alpha           (on 'g' then 'a')
+  beta (cmd-button "ktype β") ;; β - Beta            (on 'g' then 'b')
+  gamm (cmd-button "ktype γ") ;; γ - Gamma           (on 'g' then 'g')
+  Gamm (cmd-button "ktype Γ") ;; Γ - Gamma (cap)     (on 'g' then 'G')
+  delt (cmd-button "ktype δ") ;; δ - Delta           (on 'g' then 'd')
+  Delt (cmd-button "ktype Δ") ;; Δ - Delta (cap)     (on 'g' then 'D')
+  epsi (cmd-button "ktype ε") ;; ε - Epsilon         (on 'g' then 'e')
+  thet (cmd-button "ktype θ") ;; θ - Theta           (on 'g' then 't')
+  Thet (cmd-button "ktype Θ") ;; Θ - Theta (cap)     (on 'g' then 'T')
+  pi   (cmd-button "ktype π") ;; π - Pi              (on 'g' then 'p')
+  Pi   (cmd-button "ktype Π") ;; Π - Pi (cap)        (on 'g' then 'P')
+  rho  (cmd-button "ktype ρ") ;; ρ - Rho             (on 'g' then 'r')
+  sigm (cmd-button "ktype σ") ;; σ - Sigma           (on 'g' then 's')
+  Sigm (cmd-button "ktype Σ") ;; Σ - Sigma (cap)     (on 'g' then 'S')
+  tau  (cmd-button "ktype τ") ;; τ - Tau             (on 'g' then 'T')
+  phi  (cmd-button "ktype φ") ;; φ - Phi             (on 'g' then 'f')
+  Phi  (cmd-button "ktype Φ") ;; Φ - Phi (cap)       (on 'g' then 'F')
+  chi  (cmd-button "ktype χ") ;; χ - Chi             (on 'g' then 'c')
+  psi  (cmd-button "ktype ψ") ;; ψ - Psi             (on 'g' then 'y')
+  Psi  (cmd-button "ktype Ψ") ;; Ψ - Psi (cap)       (on 'g' then 'Y')
+  omeg (cmd-button "ktype ω") ;; ω - Omega           (on 'g' then 'o')
+  Omeg (cmd-button "ktype Ω") ;; Ω - Omega (cap)     (on 'g' then 'O')
+  
+  ;; --- Special Symbols and Punctuation ---
+  bull (cmd-button "ktype •") ;; • - Bullet          (on 'S-.')
+  cdot (cmd-button "ktype ·") ;; · - Centered Dot    (on 'S-;')
+  star (cmd-button "ktype ★") ;; ★ - Star            (on '*' key)
+  diam (cmd-button "ktype ♦") ;; ♦ - Diamond         (on 'S-4')
+  chek (cmd-button "ktype ✓") ;; ✓ - Check Mark      (on 'v' key)
+  cros (cmd-button "ktype ✗") ;; ✗ - Cross Mark      (on 'x' key)
+  warr (cmd-button "ktype ⚠") ;; ⚠ - Warning         (on 'w' key)
+  info (cmd-button "ktype ⓘ") ;; ⓘ - Information     (on 'S-i')
+  
+  ;; --- Subscripts and Superscripts (Common) ---
+  sub0 (cmd-button "ktype ₀") ;; ₀ - Subscript 0     
+  sub1 (cmd-button "ktype ₁") ;; ₁ - Subscript 1     
+  sub2 (cmd-button "ktype ₂") ;; ₂ - Subscript 2     
+  subn (cmd-button "ktype ₙ") ;; ₙ - Subscript n     
+  sup0 (cmd-button "ktype ⁰") ;; ⁰ - Superscript 0   
+  sup1 (cmd-button "ktype ¹") ;; ¹ - Superscript 1   
+  sup2 (cmd-button "ktype ²") ;; ² - Superscript 2   
+  sup3 (cmd-button "ktype ³") ;; ³ - Superscript 3   
+  supn (cmd-button "ktype ⁿ") ;; ⁿ - Superscript n   
+  
+  ;; --- Currency and Special ---
+  euro (cmd-button "ktype €") ;; € - Euro            
+  poun (cmd-button "ktype £") ;; £ - Pound           
+  cent (cmd-button "ktype ¢") ;; ¢ - Cent            
+  copy (cmd-button "ktype ©") ;; © - Copyright       
+  regi (cmd-button "ktype ®") ;; ® - Registered      
+  trad (cmd-button "ktype ™") ;; ™ - Trademark       
+  sect (cmd-button "ktype §") ;; § - Section         
+  para (cmd-button "ktype ¶") ;; ¶ - Paragraph       
+)
+
+
+(deflayer qwerty
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc       del
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \          pgup
+  @sym a    s    d    f    g    h    j    k    l    ;    '    ret					    pgdn
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft            up
+  lctl lmet lalt           spc            ralt rmet      rctl      left down rght
+)
+
+(deflayer symbols
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @degr @larr @bimp      del
+  XX   XX   XX   XX   XX   XX   XX   @land (around S @lor) @inf   @rarr @impl  bspc  del 
+  XX   XX   XX   @exis XX  XX   XX   @unio (around S @nin)  @Omeg    @Pi   XX   XX   XX pgup  
+  XX   @fall @Sigm XX @func @Gamm XX   XX   XX   @lamb ;    '      ret      pgdn
+  lsft XX   XX   @isec XX  XX   @lnot XX   @leq  @geq  @neq  rsft            up
+  lctl lmet lalt           spc            ralt rmet      rctl           left down rght
+)
