@@ -17,7 +17,6 @@ vim.o.hlsearch = true
 vim.o.incsearch = true
 vim.o.clipboard = "unnamedplus"
 vim.o.termguicolors = true
-
 vim.diagnostic.config({
-	virtual_lines = true,
+  virtual_lines = { current_line = true },
 })

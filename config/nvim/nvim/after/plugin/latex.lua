@@ -9,7 +9,7 @@ vim.g.vimtex_compile_latexmk = {
   executable = "latexmk",
 	out_dir = "out",
   OPTIONS = {
-    "-xelatex",
+    "-lualatex",
     "-fine-line-error",
     "-synctex=1",
     "-interactions=nonstopmode",
