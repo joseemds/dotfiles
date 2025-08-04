@@ -2,5 +2,5 @@
 return {
 	filetypes = {'lua'},
 	cmd = {'lua-language-server'},
-	root_markers = '.luarc.json'
+	root_markers = {'.luarc.json'}
 }

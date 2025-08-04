@@ -5,7 +5,7 @@ return {
         opts = {
             notify_on_error = false,
             formatters_by_ft = {
-								ocaml = {'ocamlformat', lsp_format = 'prefer'},
+				ocaml = {'ocamlformat', lsp_format = 'prefer'},
                 c = { name = 'clangd', timeout_ms = 500, lsp_format = 'prefer' },
                 javascript = { 'prettier', name = 'dprint', timeout_ms = 500, lsp_format = 'fallback' },
                 javascriptreact = { 'prettier', name = 'dprint', timeout_ms = 500, lsp_format = 'fallback' },

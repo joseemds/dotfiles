@@ -89,12 +89,12 @@
     EDITOR = "nvim";
   };
   home.file = {".local/bin".source = ../../scripts;};
-  xdg.configFile = {
-    nvim = {
-      source = ~/dotfiles/config/nvim;
-      recursive = true;
-    };
-  };
+  # xdg.configFile = {
+  #   nvim = {
+  #     source = ~/dotfiles/config/nvim;
+  #     recursive = true;
+  #   };
+  # };
 
   programs.neovim.enable = true;
 
@@ -125,13 +125,13 @@
     pkgs.eza
     pkgs.llm
 		pkgs.pueue
-    (pkgs.nerdfonts.override {
-      fonts = [
-        "Mononoki"
-        "Lilex"
-        "Iosevka"
-      ];
-    })
+    # (pkgs.nerdfonts.override {
+    #   fonts = [
+    #     "Mononoki"
+    #     "Lilex"
+    #     "Iosevka"
+    #   ];
+    # })
   ];
 
   programs.zoxide = {

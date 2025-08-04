@@ -17,6 +17,12 @@ vim.o.hlsearch = true
 vim.o.incsearch = true
 vim.o.clipboard = "unnamedplus"
 vim.o.termguicolors = true
+vim.o.foldenable = true
+vim.o.foldlevelstart = 99
+vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+vim.wo.foldmethod = "expr"
+
 vim.diagnostic.config({
   virtual_lines = { current_line = true },
 })

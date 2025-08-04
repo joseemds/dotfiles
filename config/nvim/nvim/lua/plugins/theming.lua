@@ -1,7 +1,7 @@
 return {
 	"folke/tokyonight.nvim",
 	"shatur/neovim-ayu",
-	{"sainnhe/everforest", lazy = true},
+	"sainnhe/everforest",
 	"rebelot/kanagawa.nvim",
 	"catppuccin/nvim",
 }
