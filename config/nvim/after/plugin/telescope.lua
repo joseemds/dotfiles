@@ -36,5 +36,5 @@ telescope.setup {
 
 }
 
-map('n', '<C-p>', ':Telescope find_files<CR>', silent_opts)
-map('n', '<leader>lg', ':Telescope live_grep<CR>', silent_opts)
+map('n', '<C-p>', ':FzfLua files<CR>', silent_opts)
+map('n', '<leader>lg', ':FzfLua live_grep<CR>', silent_opts)

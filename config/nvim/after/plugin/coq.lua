@@ -1,1 +1,1 @@
-vim.g.coqtail_map_prefix = '<localleader>c'
+vim.g.coqtail_map_prefix = ',c'

@@ -1,5 +1,6 @@
+-- pacman -S lua-language-server
 return {
-    command = {"ruff", "serve"},
-    filetypes = {"python"},
-    root_markers = {"uv.toml", ".git"}
+	filetypes = {'python'},
+	cmd = {'ruff', 'server'},
+	root_markers = {'pyproject.toml', 'requirements.txt', 'uv.lock'}
 }

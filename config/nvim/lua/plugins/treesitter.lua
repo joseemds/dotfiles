@@ -1,83 +1,66 @@
 return {
     {
         'nvim-treesitter/nvim-treesitter',
-        dependencies = {
-            {
-                'nvim-treesitter/nvim-treesitter-context',
-                opts = {
-                    max_lines = 3,
-                    multiline_threshold = 1,
-                    min_window_height = 20,
-                },
-                keys = {
-                    {
-                        '[c',
-                        function()
-                            if vim.wo.diff then
-                                return '[c'
-                            else
-                                vim.schedule(function()
-                                    require('treesitter-context').go_to_context()
-                                end)
-                                return '<Ignore>'
-                            end
-                        end,
-                        desc = 'Jump to upper context',
-                        expr = true,
-                    },
-                },
-            },
-        },
-        version = false,
-        build = ':TSUpdate',
-        opts = {
-            ensure_installed = {
-                'bash',
-                'c',
-                'cpp',
-                'fish',
-								'elixir',
-                'gitcommit',
-                'html',
-                'java',
-                'javascript',
-                'json',
-                'json5',
-                'jsonc',
-                'lua',
-                'markdown',
-                'markdown_inline',
-								'ocaml',
-                'python',
-                'query',
-                'regex',
-                'rust',
-                'scss',
-                'toml',
-                'tsx',
-                'typescript',
-                'vim',
-                'vimdoc',
-                'yaml',
-            },
-            highlight = { enable = true },
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = '<cr>',
-                    node_incremental = '<cr>',
-                    scope_incremental = false,
-                    node_decremental = '<bs>',
-                },
-            },
-            indent = {
-                enable = true,
-                -- Treesitter unindents Yaml lists for some reason.
-                disable = { 'yaml' },
-            },
-        },
-        config = function(_, opts)
-            require('nvim-treesitter.configs').setup(opts)
-        end,
-    },
+        lazy = false,
+        branch = 'main',
+        build = ":TSUpdate",
+        init = function()
+            local parser_installed = {
+								"ocaml",
+								"rust",
+								"zig", "java",
+								"elixir",
+                "python",
+                "go",
+                "c",
+                "lua",
+                "vim",
+                "vimdoc",
+                "query",
+                "markdown_inline",
+                "markdown",
+            }
+
+            vim.defer_fn(function() require("nvim-treesitter").install(parser_installed) end, 1000)
+            require("nvim-treesitter").update()
+
+            -- auto-start highlights & indentation
+            vim.api.nvim_create_autocmd("FileType", {
+                desc = "User: enable treesitter highlighting",
+                callback = function(ctx)
+                    -- highlights
+                    local hasStarted = pcall(vim.treesitter.start)
+
+                    local no_indent = {}
+										local setup_textobjects = function(bufrn)
+											local swap = require('nvim-treesitter-textobjects.swap')
+											local move = require('nvim-treesitter-textobjects.move')
+
+											local nmap = function(bufnr, key, fn, opts)
+												vim.keymap.set("n", key, fn, { buffer = bufnr, noremap = true, silent = true, unpack(opts or {}) })
+											end
+
+											nmap(bufnr, "<leader>a", function() swap.swap_next("@parameter.inner") end)
+											nmap(bufnr,"<leader>A", function() swap.swap_previous("@parameter.inner") end)
+
+											nmap(bufnr,"]f", function() move.goto_next_start("@function.outer") end)
+											nmap(bufnr,"]c", function() move.goto_next_start("@class.outer") end)
+											nmap(bufnr,"]p", function() move.goto_next_start("@parameter.outer") end)
+											nmap(bufnr,"]P", function() move.goto_next_start("@parameter.inner") end)
+
+											nmap(bufnr,"[f", function() move.goto_previous_start("@function.outer") end)
+											nmap(bufnr,"[c", function() move.goto_previous_start("@class.outer") end)
+											nmap(bufnr,"[p", function() move.goto_previous_start("@parameter.outer") end)
+											nmap(bufnr,"[P", function() move.goto_previous_start("@parameter.inner") end)
+										end
+                    if hasStarted and not vim.list_contains(no_indent, ctx.match) then
+                        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+
+												setup_textobjects(ctx.bufnr)
+                    end
+                end,
+            })
+        end
+    }
 }

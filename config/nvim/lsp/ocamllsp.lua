@@ -1,5 +1,5 @@
 return {
-	filetypes = { "ocaml", "reason", "dune", "menhir", "ocamllex" },
-	cmd = 'ocaml-language-server'
-
+	cmd = {'ocamllsp'},
+	filetypes = { "ocaml", "ocamlinterface", "reason", "dune", "menhir", "ocamllex" },
+  root_markers = { 'dune-project', '*.opam' },
 }

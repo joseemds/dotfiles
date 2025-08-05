@@ -1,6 +1,8 @@
--- vim.cmd [[
--- 	:autocmd BufNewFile, BufRead *.tex VimtexCompilelatex.lua
--- ]]
+vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
+	pattern = "*.tex",
+	command = "VimtexCompilelatex"
+
+})
 
 vim.g.tex_flavor = 'latex'
 vim.g.vimtex_view_method = 'zathura'
@@ -9,7 +11,7 @@ vim.g.vimtex_compile_latexmk = {
   executable = "latexmk",
 	out_dir = "out",
   OPTIONS = {
-    "-xelatex",
+    "-lualatex",
     "-fine-line-error",
     "-synctex=1",
     "-interactions=nonstopmode",
