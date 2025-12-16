@@ -1,0 +1,105 @@
+# https://andre.arko.net/2025/09/28/stupid-jj-tricks/
+
+[user]
+name = "Jose Eduardo Monteiro"
+email = "mds.josee@gmail.com"
+
+[ui]
+diff-editor = "meld"
+merge-editor = "mergiraf"
+default-command = ["log", "-T", "log_with_files", "--limit", "7"]
+
+[aliases]
+tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
+retrunk = ["rebase", "-d", "trunk()"]
+z = ["fuzzy_bookmark"]
+za = ["bookmark", "list", "-a"]
+fuzzy_bookmark = ["util", "exec", "--", "sh", "-c", """
+if [ "x$1" = "x" ]; then
+  jj bookmark list
+else
+  jj bookmark list -a -T 'separate("@", name, remote) ++ "\n"' 2> /dev/null | sort | uniq | fzf -f "$1" | head -n1 | xargs jj new
+fi
+""", ""]
+
+[revsets]
+log = "(trunk()..@):: | (trunk()..@)-"
+
+[revset-aliases]
+'user(x)' = 'author(x) | committer(x)'
+'mine()' = 'user("mds.josee@gmail.com") | user("joseemds")'
+'wip()' = 'description(glob:"wip:*")'
+'stash()' = 'description(glob:"stash:*")'
+'private()' = 'description(glob:"private:*")'
+'stack()' = 'stack(@)'
+'stack(x)' = 'stack(x, 2)'
+'stack(x, n)' = 'ancestors(reachable(x, mutable()), n)'
+'open()' = 'stack(mine() | @, 1)'
+'ready()' = 'open() ~ descendants(wip() | private())'
+'uninterested()' = '::remote_bookmarks() | tags()'
+'interested()' = 'mine() ~ uninterested()'
+"closest_bookmark(to)" = "heads(::to & bookmarks())"
+'recent_work' = 'ancestors(visible_heads(), 3) & mutable()'
+
+[template-aliases]
+"format_timestamp(timestamp)" = "timestamp.ago()"
+
+log_with_files = '''
+if(root,
+  format_root_commit(self),
+  label(if(current_working_copy, "working_copy"),
+    concat(
+      format_short_commit_header(self) ++ "\n",
+      separate(" ",
+        if(empty, label("empty", "(empty)")),
+        if(description,
+          description.first_line(),
+          label(if(empty, "empty"), description_placeholder),
+        ),
+      ) ++ "\n",
+      if(self.contained_in("recent_work"), diff.summary()),
+    ),
+  )
+)
+'''
+
+log_json_stream = '''
+  "{" ++ 
+    "change_id".escape_json() ++ ": " ++ stringify(change_id).escape_json() ++ ", " ++ 
+    "author".escape_json() ++ ": " ++ stringify(author).escape_json() ++
+  "}\n"
+'''
+
+[templates]
+draft_commit_description = '''
+  concat(
+    coalesce(description, default_commit_description, "\n"),
+    surround(
+      "\nJJ: This commit contains the following changes:\n", "",
+      indent("JJ:     ", diff.stat(72)),
+    ),
+    "\nJJ: ignore-rest\n",
+    diff.git(),
+  )
+'''
+
+[fix.tools.clang-format]
+command = ["/usr/bin/clang-format", "--assume-filename=$path"]
+patterns = ["glob:'**/*.cc'",
+            "glob:'**/*.h'",
+            "glob:'**/*.c'",
+            "glob:'**/*.hpp'",
+            "glob:'**/*.cpp'"
+]
+
+[fix.tools.black]
+command = ["/usr/bin/black", "-", "--stdin-filename=$path"]
+patterns = ["glob:'**/*.py'"]
+
+[fix.tools.prettier]
+command = ["prettier", "$path"]
+patterns = ["glob:'**/*.js'",
+            "glob:'**/*.jsx'",
+            "glob:'**/*.ts'",
+            "glob:'**/*.tsx'",
+]

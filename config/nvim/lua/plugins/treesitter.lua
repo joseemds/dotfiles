@@ -5,24 +5,24 @@ return {
         branch = 'main',
         build = ":TSUpdate",
         init = function()
-            local parser_installed = {
-								"ocaml",
-								"rust",
-								"zig", "java",
-								"elixir",
-                "python",
-                "go",
-                "c",
-                "lua",
-                "vim",
-                "vimdoc",
-                "query",
-                "markdown_inline",
-                "markdown",
-            }
-
-            vim.defer_fn(function() require("nvim-treesitter").install(parser_installed) end, 1000)
-            require("nvim-treesitter").update()
+        --     local parser_installed = {
+								-- "ocaml",
+								-- "rust",
+								-- "zig", "java",
+								-- "elixir",
+        --         "python",
+        --         "go",
+        --         "c",
+        --         "lua",
+        --         "vim",
+        --         "vimdoc",
+        --         "query",
+        --         "markdown_inline",
+        --         "markdown",
+        --     }
+								--
+        --     vim.defer_fn(function() require("nvim-treesitter").install(parser_installed) end, 1000)
+            -- require("nvim-treesitter").update()
 
             -- auto-start highlights & indentation
             vim.api.nvim_create_autocmd("FileType", {
